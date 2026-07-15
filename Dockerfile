@@ -3,7 +3,7 @@
 # ═══════════════════════════════════════════════════════════════════════════════
 # GraalVM native-image build for the Trading Engine.
 #
-#   docker build -f Dockerfile.native -t trading-engine:native .
+#   docker build -f Dockerfile -t trading-engine:native .
 #
 # The build stage needs plenty of RAM (native-image typically wants 8–16 GB).
 # The final image is a tiny, JIT-free binary that starts in ~0.1s and idles on a
