@@ -170,6 +170,18 @@ reddit:
   base-url: https://www.reddit.com
 
 # ─────────────────────────────────────────────────────────────────────────────
+# App security (HTTP Basic on the public API) + CORS for the separate UI
+# ─────────────────────────────────────────────────────────────────────────────
+app:
+  security:
+    # Dev defaults — overridden per env. In prod these come from env vars.
+    username: admin
+    password: changeme
+  cors:
+    # Comma-separated origin patterns for the separately-deployed UI.
+    allowed-origins: "http://localhost:3000,http://localhost:*"
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Management / Actuator
 # ─────────────────────────────────────────────────────────────────────────────
 management:

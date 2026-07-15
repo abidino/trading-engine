@@ -13,7 +13,9 @@ server:
 #   SMTP_HOST SMTP_PORT SMTP_USER SMTP_PASS
 #   DEEPSEEK_API_KEY
 #   ALERT_EMAIL_TO ALERT_EMAIL_FROM
-# Optional (have safe non-secret defaults): DEEPSEEK_MODEL, DEEPSEEK_THINKING, etc.
+#   APP_AUTH_USERNAME APP_AUTH_PASSWORD   (HTTP Basic on the public API)
+# Optional (have safe non-secret defaults): DEEPSEEK_MODEL, DEEPSEEK_THINKING,
+#   APP_CORS_ALLOWED_ORIGINS, etc.
 # ═══════════════════════════════════════════════════════════════════════════════
 spring:
   application:
@@ -154,6 +156,18 @@ newsapi:
 
 reddit:
   base-url: https://www.reddit.com
+
+# ─────────────────────────────────────────────────────────────────────────────
+# App security (HTTP Basic on the public API) + CORS for the separate UI
+#   Required env: APP_AUTH_USERNAME, APP_AUTH_PASSWORD
+#   Optional env: APP_CORS_ALLOWED_ORIGINS (comma-separated; default allows any)
+# ─────────────────────────────────────────────────────────────────────────────
+app:
+  security:
+    username: ${APP_AUTH_USERNAME}
+    password: ${APP_AUTH_PASSWORD}
+  cors:
+    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:*}
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Management / Actuator — expose only what a prod healthcheck needs
