@@ -174,9 +174,8 @@ reddit:
 # ─────────────────────────────────────────────────────────────────────────────
 app:
   security:
-    # Dev defaults — overridden per env. In prod these come from env vars.
-    username: admin
-    password: changeme
+    username: ${APP_AUTH_USERNAME}
+    password: ${APP_AUTH_PASSWORD}
   cors:
     # Comma-separated origin patterns for the separately-deployed UI.
     allowed-origins: "http://localhost:3000,http://localhost:*"

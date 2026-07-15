@@ -62,8 +62,8 @@ public class SecurityConfig {
     @Bean
     UserDetailsService userDetailsService(
             PasswordEncoder encoder,
-            @Value("${app.security.username:admin}") String username,
-            @Value("${app.security.password:changeme}") String password) {
+            @Value("${app.security.username}") String username,
+            @Value("${app.security.password}") String password) {
         UserDetails user = User.withUsername(username)
                 .password(encoder.encode(password))
                 .roles("API")
