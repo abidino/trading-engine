@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot Dev",
+            "request": "launch",
+            "mainClass": "com.trading.TradingEngineApplication",
+            "vmArgs": "-Dspring.profiles.active=local"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot Test",
+            "request": "launch",
+            "mainClass": "com.trading.TradingEngineApplication",
+            "vmArgs": "-Dspring.profiles.active=local"
+        }
+    ]
+}

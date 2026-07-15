@@ -1,0 +1,183 @@
+server:
+  port: 4650
+
+spring:
+  application:
+    name: trading-engine
+  threads:
+    virtual:
+      enabled: true
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT:5432}/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASS}
+    hikari:
+      maximum-pool-size: ${DB_POOL_MAX:20}
+      minimum-idle: ${DB_POOL_MIN:5}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+
+  mail:
+    host: ${SMTP_HOST:smtp.gmail.com}
+    port: ${SMTP_PORT:587}
+    username: ${SMTP_USER}
+    password: ${SMTP_PASS}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+# ─────────────────────────────────────────────────────────────────────────────
+# LLM Configuration
+# ─────────────────────────────────────────────────────────────────────────────
+llm:
+  default-provider: ollama
+
+  providers:
+    ollama:
+      base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
+      model: ${OLLAMA_MODEL:phi4-finance}
+      api-key: ""
+    openai:
+      base-url: https://api.openai.com
+      api-key: ${OPENAI_API_KEY:}
+      model: gpt-4o-mini
+    anthropic:
+      base-url: https://api.anthropic.com
+      api-key: ${ANTHROPIC_API_KEY:}
+      model: claude-3-haiku-20240307
+    proxy:
+      base-url: ${PROXY_BASE_URL:http://localhost:4655/v1}
+      api-key: ${PROXY_API_KEY:}
+      model: ${PROXY_MODEL:gpt-4.1}
+    deepseek:
+      base-url: ${DEEPSEEK_BASE_URL:https://api.deepseek.com}
+      api-key: ${DEEPSEEK_API_KEY:}
+      model: ${DEEPSEEK_MODEL:deepseek-v4-flash}
+      thinking-enabled: ${DEEPSEEK_THINKING:true}
+      thinking-types: PORTFOLIO_REVIEW,WATCHLIST_REVIEW,DISCOVERY
+      reasoning-effort: ${DEEPSEEK_EFFORT:high}
+      json-mode: true
+
+  # Optional: override provider per analysis type
+  # routing:
+  #   PORTFOLIO_REVIEW: openai
+  #   DISCOVERY: ollama
+  routing: {}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Scheduler Cron Expressions  (override per env via env vars)
+# ─────────────────────────────────────────────────────────────────────────────
+scheduler:
+  discovery:
+    # 05:00 UTC premarket — moved off 07:00 to dodge DeepSeek peak (06:00-10:00 UTC)
+    cron: "0 0 5 * * MON-FRI"
+  portfolio:
+    # ~5h sweep, 7 days a week. Hours chosen to avoid DeepSeek peak windows
+    # (01:00-04:00 & 06:00-10:00 UTC): runs at 00,05,11,15,19,23.
+    cron: "0 0 0,5,11,15,19,23 * * *"
+  watchlist:
+    cron: "0 0 0,5,11,15,19,23 * * *"
+  technical:
+    # 21:30 UTC ≈ 30 min after the US market close (16:00 US/Eastern)
+    cron: "0 30 21 * * MON-FRI"
+    # Candle look-back window; needs ~250+ trading days for EMA-200
+    lookback-days: 400
+  news:
+    # Hourly scan of macro + per-ticker news, skipping DeepSeek peak hours
+    # (01:00-04:00 & 06:00-10:00 UTC) since each article is LLM-classified.
+    cron: "0 0 0,4,5,10,11,12,13,14,15,16,17,18,19,20,21,22,23 * * *"
+    per-ticker-limit: 15
+    macro-limit: 30
+  intraday:
+    # Every 5 minutes — refresh live pre/regular/post quotes for held + watched tickers (Yahoo)
+    cron: "0 0/5 * * * *"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Orchestration
+# ─────────────────────────────────────────────────────────────────────────────
+orchestration:
+  news:
+    # How many days of news (incl. macro/ALL-tagged) to feed into the analysis prompt
+    lookback-days: 7
+  # Data-readiness thresholds: before an analysis runs, each adapter gathers fresh data
+  # from its provider only when the local cache is missing or older than these limits.
+  freshness:
+    news-minutes: 30          # re-scan ticker news if newest article older than this
+    news-scan-limit: 15       # how many articles to fetch when scanning
+    social-minutes: 30        # re-collect social signals if newest older than this
+    social-collect-limit: 20  # how many social signals to fetch when collecting
+    technical-lookback-days: 90  # candle sync window when the local cache is stale
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Notification
+# ─────────────────────────────────────────────────────────────────────────────
+notification:
+  confidence-threshold: 0.70
+  alert-actions: BUY,SELL
+  email:
+    to: ${ALERT_EMAIL_TO:}
+    from: no-reply@tradingengine.local
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Decision journal — automatic outcome evaluation (feedback loop)
+# ─────────────────────────────────────────────────────────────────────────────
+decisions:
+  evaluation:
+    # Nightly at 01:30. Resolves PENDING decisions older than min-age-days against
+    # realised price move; |move| judged against band-pct (see verdict rules in service).
+    cron: 0 30 1 * * *
+    min-age-days: 5
+    band-pct: 3.0
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Proactive threshold alerts (Flow 5) — notify when price hits actionable levels
+# ─────────────────────────────────────────────────────────────────────────────
+alerts:
+  enabled: true
+  # Every 5 minutes; each condition fires at most once per day (de-duplicated).
+  cron: 0 0/5 * * * *
+  # Only evaluate during the US extended session (Mon–Fri 04:00–20:00 ET).
+  market-hours-only: true
+  # Whole-portfolio daily drop (%) that triggers a "portfolio down" alert.
+  portfolio-drop-pct: 5.0
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+yahoo:
+  base-url: https://query1.finance.yahoo.com
+
+finviz:
+  # Free, keyless screener (finviz.com/screener.ashx). No subscription required.
+  # auth-token is optional — if a Finviz Elite token is provided it unlocks more rows.
+  base-url: https://finviz.com
+  auth-token: ${FINVIZ_AUTH_TOKEN:}
+  max-pages: 3
+
+newsapi:
+  base-url: https://newsapi.org
+  api-key: ${NEWSAPI_KEY:}
+
+reddit:
+  base-url: https://www.reddit.com
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Management / Actuator
+# ─────────────────────────────────────────────────────────────────────────────
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+logging:
+  level:
+    com.trading: INFO
+    org.springframework.web: WARN

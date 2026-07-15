@@ -1,0 +1,2816 @@
+{
+  "groups": [
+    {
+      "group": "Universe",
+      "filters": [
+        {
+          "key": "country",
+          "label": "Country",
+          "group": "Universe",
+          "prefix": "geo_",
+          "options": [
+            {
+              "token": "usa",
+              "label": "USA"
+            },
+            {
+              "token": "notusa",
+              "label": "Foreign (ex-USA)"
+            },
+            {
+              "token": "asia",
+              "label": "Asia"
+            },
+            {
+              "token": "europe",
+              "label": "Europe"
+            },
+            {
+              "token": "latinamerica",
+              "label": "Latin America"
+            },
+            {
+              "token": "bric",
+              "label": "BRIC"
+            },
+            {
+              "token": "argentina",
+              "label": "Argentina"
+            },
+            {
+              "token": "australia",
+              "label": "Australia"
+            },
+            {
+              "token": "bahamas",
+              "label": "Bahamas"
+            },
+            {
+              "token": "belgium",
+              "label": "Belgium"
+            },
+            {
+              "token": "benelux",
+              "label": "BeNeLux"
+            },
+            {
+              "token": "bermuda",
+              "label": "Bermuda"
+            },
+            {
+              "token": "brazil",
+              "label": "Brazil"
+            },
+            {
+              "token": "canada",
+              "label": "Canada"
+            },
+            {
+              "token": "caymanislands",
+              "label": "Cayman Islands"
+            },
+            {
+              "token": "chile",
+              "label": "Chile"
+            },
+            {
+              "token": "china",
+              "label": "China"
+            },
+            {
+              "token": "chinahongkong",
+              "label": "China & Hong Kong"
+            },
+            {
+              "token": "colombia",
+              "label": "Colombia"
+            },
+            {
+              "token": "cyprus",
+              "label": "Cyprus"
+            },
+            {
+              "token": "denmark",
+              "label": "Denmark"
+            },
+            {
+              "token": "finland",
+              "label": "Finland"
+            },
+            {
+              "token": "france",
+              "label": "France"
+            },
+            {
+              "token": "germany",
+              "label": "Germany"
+            },
+            {
+              "token": "greece",
+              "label": "Greece"
+            },
+            {
+              "token": "hongkong",
+              "label": "Hong Kong"
+            },
+            {
+              "token": "hungary",
+              "label": "Hungary"
+            },
+            {
+              "token": "iceland",
+              "label": "Iceland"
+            },
+            {
+              "token": "india",
+              "label": "India"
+            },
+            {
+              "token": "indonesia",
+              "label": "Indonesia"
+            },
+            {
+              "token": "ireland",
+              "label": "Ireland"
+            },
+            {
+              "token": "israel",
+              "label": "Israel"
+            },
+            {
+              "token": "italy",
+              "label": "Italy"
+            },
+            {
+              "token": "japan",
+              "label": "Japan"
+            },
+            {
+              "token": "jordan",
+              "label": "Jordan"
+            },
+            {
+              "token": "kazakhstan",
+              "label": "Kazakhstan"
+            },
+            {
+              "token": "luxembourg",
+              "label": "Luxembourg"
+            },
+            {
+              "token": "malaysia",
+              "label": "Malaysia"
+            },
+            {
+              "token": "malta",
+              "label": "Malta"
+            },
+            {
+              "token": "mexico",
+              "label": "Mexico"
+            },
+            {
+              "token": "monaco",
+              "label": "Monaco"
+            },
+            {
+              "token": "netherlands",
+              "label": "Netherlands"
+            },
+            {
+              "token": "newzealand",
+              "label": "New Zealand"
+            },
+            {
+              "token": "norway",
+              "label": "Norway"
+            },
+            {
+              "token": "panama",
+              "label": "Panama"
+            },
+            {
+              "token": "peru",
+              "label": "Peru"
+            },
+            {
+              "token": "philippines",
+              "label": "Philippines"
+            },
+            {
+              "token": "portugal",
+              "label": "Portugal"
+            },
+            {
+              "token": "russia",
+              "label": "Russia"
+            },
+            {
+              "token": "singapore",
+              "label": "Singapore"
+            },
+            {
+              "token": "southafrica",
+              "label": "South Africa"
+            },
+            {
+              "token": "southkorea",
+              "label": "South Korea"
+            },
+            {
+              "token": "spain",
+              "label": "Spain"
+            },
+            {
+              "token": "sweden",
+              "label": "Sweden"
+            },
+            {
+              "token": "switzerland",
+              "label": "Switzerland"
+            },
+            {
+              "token": "taiwan",
+              "label": "Taiwan"
+            },
+            {
+              "token": "thailand",
+              "label": "Thailand"
+            },
+            {
+              "token": "turkey",
+              "label": "Turkey"
+            },
+            {
+              "token": "unitedarabemirates",
+              "label": "United Arab Emirates"
+            },
+            {
+              "token": "unitedkingdom",
+              "label": "United Kingdom"
+            },
+            {
+              "token": "uruguay",
+              "label": "Uruguay"
+            },
+            {
+              "token": "vietnam",
+              "label": "Vietnam"
+            }
+          ]
+        },
+        {
+          "key": "sector",
+          "label": "Sector",
+          "group": "Universe",
+          "prefix": "sec_",
+          "options": [
+            {
+              "token": "basicmaterials",
+              "label": "Basic Materials"
+            },
+            {
+              "token": "communicationservices",
+              "label": "Communication Services"
+            },
+            {
+              "token": "consumercyclical",
+              "label": "Consumer Cyclical"
+            },
+            {
+              "token": "consumerdefensive",
+              "label": "Consumer Defensive"
+            },
+            {
+              "token": "energy",
+              "label": "Energy"
+            },
+            {
+              "token": "financial",
+              "label": "Financial"
+            },
+            {
+              "token": "healthcare",
+              "label": "Healthcare"
+            },
+            {
+              "token": "industrials",
+              "label": "Industrials"
+            },
+            {
+              "token": "realestate",
+              "label": "Real Estate"
+            },
+            {
+              "token": "technology",
+              "label": "Technology"
+            },
+            {
+              "token": "utilities",
+              "label": "Utilities"
+            }
+          ]
+        },
+        {
+          "key": "industry",
+          "label": "Industry",
+          "group": "Universe",
+          "prefix": "ind_",
+          "options": [
+            {
+              "token": "stocksonly",
+              "label": "Stocks only (ex-Funds)"
+            },
+            {
+              "token": "stocksonlyspac",
+              "label": "Stocks only (ex-Funds & Shell Companies)"
+            },
+            {
+              "token": "exchangetradedfund",
+              "label": "Exchange Traded Fund"
+            },
+            {
+              "token": "advertisingagencies",
+              "label": "Advertising Agencies"
+            },
+            {
+              "token": "aerospacedefense",
+              "label": "Aerospace & Defense"
+            },
+            {
+              "token": "agriculturalinputs",
+              "label": "Agricultural Inputs"
+            },
+            {
+              "token": "airlines",
+              "label": "Airlines"
+            },
+            {
+              "token": "airportsairservices",
+              "label": "Airports & Air Services"
+            },
+            {
+              "token": "aluminum",
+              "label": "Aluminum"
+            },
+            {
+              "token": "apparelmanufacturing",
+              "label": "Apparel Manufacturing"
+            },
+            {
+              "token": "apparelretail",
+              "label": "Apparel Retail"
+            },
+            {
+              "token": "assetmanagement",
+              "label": "Asset Management"
+            },
+            {
+              "token": "automanufacturers",
+              "label": "Auto Manufacturers"
+            },
+            {
+              "token": "autoparts",
+              "label": "Auto Parts"
+            },
+            {
+              "token": "autotruckdealerships",
+              "label": "Auto & Truck Dealerships"
+            },
+            {
+              "token": "banksdiversified",
+              "label": "Banks - Diversified"
+            },
+            {
+              "token": "banksregional",
+              "label": "Banks - Regional"
+            },
+            {
+              "token": "beveragesbrewers",
+              "label": "Beverages - Brewers"
+            },
+            {
+              "token": "beveragesnonalcoholic",
+              "label": "Beverages - Non-Alcoholic"
+            },
+            {
+              "token": "beverageswineriesdistilleries",
+              "label": "Beverages - Wineries & Distilleries"
+            },
+            {
+              "token": "biotechnology",
+              "label": "Biotechnology"
+            },
+            {
+              "token": "broadcasting",
+              "label": "Broadcasting"
+            },
+            {
+              "token": "buildingmaterials",
+              "label": "Building Materials"
+            },
+            {
+              "token": "buildingproductsequipment",
+              "label": "Building Products & Equipment"
+            },
+            {
+              "token": "businessequipmentsupplies",
+              "label": "Business Equipment & Supplies"
+            },
+            {
+              "token": "capitalmarkets",
+              "label": "Capital Markets"
+            },
+            {
+              "token": "chemicals",
+              "label": "Chemicals"
+            },
+            {
+              "token": "closedendfunddebt",
+              "label": "Closed-End Fund - Debt"
+            },
+            {
+              "token": "closedendfundequity",
+              "label": "Closed-End Fund - Equity"
+            },
+            {
+              "token": "closedendfundforeign",
+              "label": "Closed-End Fund - Foreign"
+            },
+            {
+              "token": "cokingcoal",
+              "label": "Coking Coal"
+            },
+            {
+              "token": "communicationequipment",
+              "label": "Communication Equipment"
+            },
+            {
+              "token": "computerhardware",
+              "label": "Computer Hardware"
+            },
+            {
+              "token": "confectioners",
+              "label": "Confectioners"
+            },
+            {
+              "token": "conglomerates",
+              "label": "Conglomerates"
+            },
+            {
+              "token": "consultingservices",
+              "label": "Consulting Services"
+            },
+            {
+              "token": "consumerelectronics",
+              "label": "Consumer Electronics"
+            },
+            {
+              "token": "copper",
+              "label": "Copper"
+            },
+            {
+              "token": "creditservices",
+              "label": "Credit Services"
+            },
+            {
+              "token": "departmentstores",
+              "label": "Department Stores"
+            },
+            {
+              "token": "diagnosticsresearch",
+              "label": "Diagnostics & Research"
+            },
+            {
+              "token": "discountstores",
+              "label": "Discount Stores"
+            },
+            {
+              "token": "drugmanufacturersgeneral",
+              "label": "Drug Manufacturers - General"
+            },
+            {
+              "token": "drugmanufacturersspecialtygeneric",
+              "label": "Drug Manufacturers - Specialty & Generic"
+            },
+            {
+              "token": "educationtrainingservices",
+              "label": "Education & Training Services"
+            },
+            {
+              "token": "electricalequipmentparts",
+              "label": "Electrical Equipment & Parts"
+            },
+            {
+              "token": "electroniccomponents",
+              "label": "Electronic Components"
+            },
+            {
+              "token": "electronicgamingmultimedia",
+              "label": "Electronic Gaming & Multimedia"
+            },
+            {
+              "token": "electronicscomputerdistribution",
+              "label": "Electronics & Computer Distribution"
+            },
+            {
+              "token": "engineeringconstruction",
+              "label": "Engineering & Construction"
+            },
+            {
+              "token": "entertainment",
+              "label": "Entertainment"
+            },
+            {
+              "token": "farmheavyconstructionmachinery",
+              "label": "Farm & Heavy Construction Machinery"
+            },
+            {
+              "token": "farmproducts",
+              "label": "Farm Products"
+            },
+            {
+              "token": "financialconglomerates",
+              "label": "Financial Conglomerates"
+            },
+            {
+              "token": "financialdatastockexchanges",
+              "label": "Financial Data & Stock Exchanges"
+            },
+            {
+              "token": "fooddistribution",
+              "label": "Food Distribution"
+            },
+            {
+              "token": "footwearaccessories",
+              "label": "Footwear & Accessories"
+            },
+            {
+              "token": "furnishingsfixturesappliances",
+              "label": "Furnishings, Fixtures & Appliances"
+            },
+            {
+              "token": "gambling",
+              "label": "Gambling"
+            },
+            {
+              "token": "gold",
+              "label": "Gold"
+            },
+            {
+              "token": "grocerystores",
+              "label": "Grocery Stores"
+            },
+            {
+              "token": "healthcareplans",
+              "label": "Healthcare Plans"
+            },
+            {
+              "token": "healthinformationservices",
+              "label": "Health Information Services"
+            },
+            {
+              "token": "homeimprovementretail",
+              "label": "Home Improvement Retail"
+            },
+            {
+              "token": "householdpersonalproducts",
+              "label": "Household & Personal Products"
+            },
+            {
+              "token": "industrialdistribution",
+              "label": "Industrial Distribution"
+            },
+            {
+              "token": "informationtechnologyservices",
+              "label": "Information Technology Services"
+            },
+            {
+              "token": "infrastructureoperations",
+              "label": "Infrastructure Operations"
+            },
+            {
+              "token": "insurancebrokers",
+              "label": "Insurance Brokers"
+            },
+            {
+              "token": "insurancediversified",
+              "label": "Insurance - Diversified"
+            },
+            {
+              "token": "insurancelife",
+              "label": "Insurance - Life"
+            },
+            {
+              "token": "insurancepropertycasualty",
+              "label": "Insurance - Property & Casualty"
+            },
+            {
+              "token": "insurancereinsurance",
+              "label": "Insurance - Reinsurance"
+            },
+            {
+              "token": "insurancespecialty",
+              "label": "Insurance - Specialty"
+            },
+            {
+              "token": "integratedfreightlogistics",
+              "label": "Integrated Freight & Logistics"
+            },
+            {
+              "token": "internetcontentinformation",
+              "label": "Internet Content & Information"
+            },
+            {
+              "token": "internetretail",
+              "label": "Internet Retail"
+            },
+            {
+              "token": "leisure",
+              "label": "Leisure"
+            },
+            {
+              "token": "lodging",
+              "label": "Lodging"
+            },
+            {
+              "token": "lumberwoodproduction",
+              "label": "Lumber & Wood Production"
+            },
+            {
+              "token": "luxurygoods",
+              "label": "Luxury Goods"
+            },
+            {
+              "token": "marineshipping",
+              "label": "Marine Shipping"
+            },
+            {
+              "token": "medicalcarefacilities",
+              "label": "Medical Care Facilities"
+            },
+            {
+              "token": "medicaldevices",
+              "label": "Medical Devices"
+            },
+            {
+              "token": "medicaldistribution",
+              "label": "Medical Distribution"
+            },
+            {
+              "token": "medicalinstrumentssupplies",
+              "label": "Medical Instruments & Supplies"
+            },
+            {
+              "token": "metalfabrication",
+              "label": "Metal Fabrication"
+            },
+            {
+              "token": "mortgagefinance",
+              "label": "Mortgage Finance"
+            },
+            {
+              "token": "oilgasdrilling",
+              "label": "Oil & Gas Drilling"
+            },
+            {
+              "token": "oilgasep",
+              "label": "Oil & Gas E&P"
+            },
+            {
+              "token": "oilgasequipmentservices",
+              "label": "Oil & Gas Equipment & Services"
+            },
+            {
+              "token": "oilgasintegrated",
+              "label": "Oil & Gas Integrated"
+            },
+            {
+              "token": "oilgasmidstream",
+              "label": "Oil & Gas Midstream"
+            },
+            {
+              "token": "oilgasrefiningmarketing",
+              "label": "Oil & Gas Refining & Marketing"
+            },
+            {
+              "token": "otherindustrialmetalsmining",
+              "label": "Other Industrial Metals & Mining"
+            },
+            {
+              "token": "otherpreciousmetalsmining",
+              "label": "Other Precious Metals & Mining"
+            },
+            {
+              "token": "packagedfoods",
+              "label": "Packaged Foods"
+            },
+            {
+              "token": "packagingcontainers",
+              "label": "Packaging & Containers"
+            },
+            {
+              "token": "paperpaperproducts",
+              "label": "Paper & Paper Products"
+            },
+            {
+              "token": "personalservices",
+              "label": "Personal Services"
+            },
+            {
+              "token": "pharmaceuticalretailers",
+              "label": "Pharmaceutical Retailers"
+            },
+            {
+              "token": "pollutiontreatmentcontrols",
+              "label": "Pollution & Treatment Controls"
+            },
+            {
+              "token": "publishing",
+              "label": "Publishing"
+            },
+            {
+              "token": "railroads",
+              "label": "Railroads"
+            },
+            {
+              "token": "realestatedevelopment",
+              "label": "Real Estate - Development"
+            },
+            {
+              "token": "realestatediversified",
+              "label": "Real Estate - Diversified"
+            },
+            {
+              "token": "realestateservices",
+              "label": "Real Estate Services"
+            },
+            {
+              "token": "recreationalvehicles",
+              "label": "Recreational Vehicles"
+            },
+            {
+              "token": "reitdiversified",
+              "label": "REIT - Diversified"
+            },
+            {
+              "token": "reithealthcarefacilities",
+              "label": "REIT - Healthcare Facilities"
+            },
+            {
+              "token": "reithotelmotel",
+              "label": "REIT - Hotel & Motel"
+            },
+            {
+              "token": "reitindustrial",
+              "label": "REIT - Industrial"
+            },
+            {
+              "token": "reitmortgage",
+              "label": "REIT - Mortgage"
+            },
+            {
+              "token": "reitoffice",
+              "label": "REIT - Office"
+            },
+            {
+              "token": "reitresidential",
+              "label": "REIT - Residential"
+            },
+            {
+              "token": "reitretail",
+              "label": "REIT - Retail"
+            },
+            {
+              "token": "reitspecialty",
+              "label": "REIT - Specialty"
+            },
+            {
+              "token": "rentalleasingservices",
+              "label": "Rental & Leasing Services"
+            },
+            {
+              "token": "residentialconstruction",
+              "label": "Residential Construction"
+            },
+            {
+              "token": "resortscasinos",
+              "label": "Resorts & Casinos"
+            },
+            {
+              "token": "restaurants",
+              "label": "Restaurants"
+            },
+            {
+              "token": "scientifictechnicalinstruments",
+              "label": "Scientific & Technical Instruments"
+            },
+            {
+              "token": "securityprotectionservices",
+              "label": "Security & Protection Services"
+            },
+            {
+              "token": "semiconductorequipmentmaterials",
+              "label": "Semiconductor Equipment & Materials"
+            },
+            {
+              "token": "semiconductors",
+              "label": "Semiconductors"
+            },
+            {
+              "token": "shellcompanies",
+              "label": "Shell Companies"
+            },
+            {
+              "token": "silver",
+              "label": "Silver"
+            },
+            {
+              "token": "softwareapplication",
+              "label": "Software - Application"
+            },
+            {
+              "token": "softwareinfrastructure",
+              "label": "Software - Infrastructure"
+            },
+            {
+              "token": "solar",
+              "label": "Solar"
+            },
+            {
+              "token": "specialtybusinessservices",
+              "label": "Specialty Business Services"
+            },
+            {
+              "token": "specialtychemicals",
+              "label": "Specialty Chemicals"
+            },
+            {
+              "token": "specialtyindustrialmachinery",
+              "label": "Specialty Industrial Machinery"
+            },
+            {
+              "token": "specialtyretail",
+              "label": "Specialty Retail"
+            },
+            {
+              "token": "staffingemploymentservices",
+              "label": "Staffing & Employment Services"
+            },
+            {
+              "token": "steel",
+              "label": "Steel"
+            },
+            {
+              "token": "telecomservices",
+              "label": "Telecom Services"
+            },
+            {
+              "token": "textilemanufacturing",
+              "label": "Textile Manufacturing"
+            },
+            {
+              "token": "thermalcoal",
+              "label": "Thermal Coal"
+            },
+            {
+              "token": "tobacco",
+              "label": "Tobacco"
+            },
+            {
+              "token": "toolsaccessories",
+              "label": "Tools & Accessories"
+            },
+            {
+              "token": "travelservices",
+              "label": "Travel Services"
+            },
+            {
+              "token": "trucking",
+              "label": "Trucking"
+            },
+            {
+              "token": "uranium",
+              "label": "Uranium"
+            },
+            {
+              "token": "utilitiesdiversified",
+              "label": "Utilities - Diversified"
+            },
+            {
+              "token": "utilitiesindependentpowerproducers",
+              "label": "Utilities - Independent Power Producers"
+            },
+            {
+              "token": "utilitiesregulatedelectric",
+              "label": "Utilities - Regulated Electric"
+            },
+            {
+              "token": "utilitiesregulatedgas",
+              "label": "Utilities - Regulated Gas"
+            },
+            {
+              "token": "utilitiesregulatedwater",
+              "label": "Utilities - Regulated Water"
+            },
+            {
+              "token": "utilitiesrenewable",
+              "label": "Utilities - Renewable"
+            },
+            {
+              "token": "wastemanagement",
+              "label": "Waste Management"
+            }
+          ]
+        },
+        {
+          "key": "marketCap",
+          "label": "Market Cap",
+          "group": "Universe",
+          "prefix": "cap_",
+          "options": [
+            {
+              "token": "mega",
+              "label": "Mega ($200bln and more)"
+            },
+            {
+              "token": "large",
+              "label": "Large ($10bln to $200bln)"
+            },
+            {
+              "token": "mid",
+              "label": "Mid ($2bln to $10bln)"
+            },
+            {
+              "token": "small",
+              "label": "Small ($300mln to $2bln)"
+            },
+            {
+              "token": "micro",
+              "label": "Micro ($50mln to $300mln)"
+            },
+            {
+              "token": "nano",
+              "label": "Nano (under $50mln)"
+            },
+            {
+              "token": "largeover",
+              "label": "+Large (over $10bln)"
+            },
+            {
+              "token": "midover",
+              "label": "+Mid (over $2bln)"
+            },
+            {
+              "token": "smallover",
+              "label": "+Small (over $300mln)"
+            },
+            {
+              "token": "microover",
+              "label": "+Micro (over $50mln)"
+            },
+            {
+              "token": "largeunder",
+              "label": "-Large (under $200bln)"
+            },
+            {
+              "token": "midunder",
+              "label": "-Mid (under $10bln)"
+            },
+            {
+              "token": "smallunder",
+              "label": "-Small (under $2bln)"
+            },
+            {
+              "token": "microunder",
+              "label": "-Micro (under $300mln)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Price & Size",
+      "filters": [
+        {
+          "key": "price",
+          "label": "Price",
+          "group": "Price & Size",
+          "prefix": "sh_price_",
+          "options": [
+            {
+              "token": "u1",
+              "label": "Under $1"
+            },
+            {
+              "token": "u2",
+              "label": "Under $2"
+            },
+            {
+              "token": "u3",
+              "label": "Under $3"
+            },
+            {
+              "token": "u4",
+              "label": "Under $4"
+            },
+            {
+              "token": "u5",
+              "label": "Under $5"
+            },
+            {
+              "token": "u7",
+              "label": "Under $7"
+            },
+            {
+              "token": "u10",
+              "label": "Under $10"
+            },
+            {
+              "token": "u15",
+              "label": "Under $15"
+            },
+            {
+              "token": "u20",
+              "label": "Under $20"
+            },
+            {
+              "token": "u30",
+              "label": "Under $30"
+            },
+            {
+              "token": "u40",
+              "label": "Under $40"
+            },
+            {
+              "token": "u50",
+              "label": "Under $50"
+            },
+            {
+              "token": "o1",
+              "label": "Over $1"
+            },
+            {
+              "token": "o2",
+              "label": "Over $2"
+            },
+            {
+              "token": "o3",
+              "label": "Over $3"
+            },
+            {
+              "token": "o4",
+              "label": "Over $4"
+            },
+            {
+              "token": "o5",
+              "label": "Over $5"
+            },
+            {
+              "token": "o7",
+              "label": "Over $7"
+            },
+            {
+              "token": "o10",
+              "label": "Over $10"
+            },
+            {
+              "token": "o15",
+              "label": "Over $15"
+            },
+            {
+              "token": "o20",
+              "label": "Over $20"
+            },
+            {
+              "token": "o30",
+              "label": "Over $30"
+            },
+            {
+              "token": "o40",
+              "label": "Over $40"
+            },
+            {
+              "token": "o50",
+              "label": "Over $50"
+            },
+            {
+              "token": "o60",
+              "label": "Over $60"
+            },
+            {
+              "token": "o70",
+              "label": "Over $70"
+            },
+            {
+              "token": "o80",
+              "label": "Over $80"
+            },
+            {
+              "token": "o90",
+              "label": "Over $90"
+            },
+            {
+              "token": "o100",
+              "label": "Over $100"
+            },
+            {
+              "token": "1to5",
+              "label": "$1 to $5"
+            },
+            {
+              "token": "1to10",
+              "label": "$1 to $10"
+            },
+            {
+              "token": "1to20",
+              "label": "$1 to $20"
+            },
+            {
+              "token": "5to10",
+              "label": "$5 to $10"
+            },
+            {
+              "token": "5to20",
+              "label": "$5 to $20"
+            },
+            {
+              "token": "5to50",
+              "label": "$5 to $50"
+            },
+            {
+              "token": "10to20",
+              "label": "$10 to $20"
+            },
+            {
+              "token": "10to50",
+              "label": "$10 to $50"
+            },
+            {
+              "token": "20to50",
+              "label": "$20 to $50"
+            },
+            {
+              "token": "50to100",
+              "label": "$50 to $100"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Valuation",
+      "filters": [
+        {
+          "key": "pe",
+          "label": "P/E",
+          "group": "Valuation",
+          "prefix": "fa_pe_",
+          "options": [
+            {
+              "token": "low",
+              "label": "Low (<15)"
+            },
+            {
+              "token": "profitable",
+              "label": "Profitable (>0)"
+            },
+            {
+              "token": "high",
+              "label": "High (>50)"
+            },
+            {
+              "token": "u5",
+              "label": "Under 5"
+            },
+            {
+              "token": "u10",
+              "label": "Under 10"
+            },
+            {
+              "token": "u15",
+              "label": "Under 15"
+            },
+            {
+              "token": "u20",
+              "label": "Under 20"
+            },
+            {
+              "token": "u25",
+              "label": "Under 25"
+            },
+            {
+              "token": "u30",
+              "label": "Under 30"
+            },
+            {
+              "token": "u35",
+              "label": "Under 35"
+            },
+            {
+              "token": "u40",
+              "label": "Under 40"
+            },
+            {
+              "token": "u45",
+              "label": "Under 45"
+            },
+            {
+              "token": "u50",
+              "label": "Under 50"
+            },
+            {
+              "token": "o5",
+              "label": "Over 5"
+            },
+            {
+              "token": "o10",
+              "label": "Over 10"
+            },
+            {
+              "token": "o15",
+              "label": "Over 15"
+            },
+            {
+              "token": "o20",
+              "label": "Over 20"
+            },
+            {
+              "token": "o25",
+              "label": "Over 25"
+            },
+            {
+              "token": "o30",
+              "label": "Over 30"
+            },
+            {
+              "token": "o35",
+              "label": "Over 35"
+            },
+            {
+              "token": "o40",
+              "label": "Over 40"
+            },
+            {
+              "token": "o45",
+              "label": "Over 45"
+            },
+            {
+              "token": "o50",
+              "label": "Over 50"
+            }
+          ]
+        },
+        {
+          "key": "forwardPe",
+          "label": "Forward P/E",
+          "group": "Valuation",
+          "prefix": "fa_fpe_",
+          "options": [
+            {
+              "token": "low",
+              "label": "Low (<15)"
+            },
+            {
+              "token": "profitable",
+              "label": "Profitable (>0)"
+            },
+            {
+              "token": "high",
+              "label": "High (>50)"
+            },
+            {
+              "token": "u5",
+              "label": "Under 5"
+            },
+            {
+              "token": "u10",
+              "label": "Under 10"
+            },
+            {
+              "token": "u15",
+              "label": "Under 15"
+            },
+            {
+              "token": "u20",
+              "label": "Under 20"
+            },
+            {
+              "token": "u25",
+              "label": "Under 25"
+            },
+            {
+              "token": "u30",
+              "label": "Under 30"
+            },
+            {
+              "token": "u35",
+              "label": "Under 35"
+            },
+            {
+              "token": "u40",
+              "label": "Under 40"
+            },
+            {
+              "token": "u45",
+              "label": "Under 45"
+            },
+            {
+              "token": "u50",
+              "label": "Under 50"
+            },
+            {
+              "token": "o5",
+              "label": "Over 5"
+            },
+            {
+              "token": "o10",
+              "label": "Over 10"
+            },
+            {
+              "token": "o15",
+              "label": "Over 15"
+            },
+            {
+              "token": "o20",
+              "label": "Over 20"
+            },
+            {
+              "token": "o25",
+              "label": "Over 25"
+            },
+            {
+              "token": "o30",
+              "label": "Over 30"
+            },
+            {
+              "token": "o35",
+              "label": "Over 35"
+            },
+            {
+              "token": "o40",
+              "label": "Over 40"
+            },
+            {
+              "token": "o45",
+              "label": "Over 45"
+            },
+            {
+              "token": "o50",
+              "label": "Over 50"
+            }
+          ]
+        },
+        {
+          "key": "peg",
+          "label": "PEG",
+          "group": "Valuation",
+          "prefix": "fa_peg_",
+          "options": [
+            {
+              "token": "low",
+              "label": "Low (<1)"
+            },
+            {
+              "token": "high",
+              "label": "High (>2)"
+            },
+            {
+              "token": "u1",
+              "label": "Under 1"
+            },
+            {
+              "token": "u2",
+              "label": "Under 2"
+            },
+            {
+              "token": "u3",
+              "label": "Under 3"
+            },
+            {
+              "token": "o1",
+              "label": "Over 1"
+            },
+            {
+              "token": "o2",
+              "label": "Over 2"
+            },
+            {
+              "token": "o3",
+              "label": "Over 3"
+            }
+          ]
+        },
+        {
+          "key": "priceSales",
+          "label": "P/S",
+          "group": "Valuation",
+          "prefix": "fa_ps_",
+          "options": [
+            {
+              "token": "low",
+              "label": "Low (<1)"
+            },
+            {
+              "token": "high",
+              "label": "High (>10)"
+            },
+            {
+              "token": "u1",
+              "label": "Under 1"
+            },
+            {
+              "token": "u2",
+              "label": "Under 2"
+            },
+            {
+              "token": "u3",
+              "label": "Under 3"
+            },
+            {
+              "token": "u4",
+              "label": "Under 4"
+            },
+            {
+              "token": "u5",
+              "label": "Under 5"
+            },
+            {
+              "token": "u6",
+              "label": "Under 6"
+            },
+            {
+              "token": "u7",
+              "label": "Under 7"
+            },
+            {
+              "token": "u8",
+              "label": "Under 8"
+            },
+            {
+              "token": "u9",
+              "label": "Under 9"
+            },
+            {
+              "token": "u10",
+              "label": "Under 10"
+            },
+            {
+              "token": "o1",
+              "label": "Over 1"
+            },
+            {
+              "token": "o2",
+              "label": "Over 2"
+            },
+            {
+              "token": "o3",
+              "label": "Over 3"
+            },
+            {
+              "token": "o4",
+              "label": "Over 4"
+            },
+            {
+              "token": "o5",
+              "label": "Over 5"
+            },
+            {
+              "token": "o6",
+              "label": "Over 6"
+            },
+            {
+              "token": "o7",
+              "label": "Over 7"
+            },
+            {
+              "token": "o8",
+              "label": "Over 8"
+            },
+            {
+              "token": "o9",
+              "label": "Over 9"
+            },
+            {
+              "token": "o10",
+              "label": "Over 10"
+            }
+          ]
+        },
+        {
+          "key": "priceFcf",
+          "label": "P/FCF",
+          "group": "Valuation",
+          "prefix": "fa_pfcf_",
+          "options": [
+            {
+              "token": "low",
+              "label": "Low (<15)"
+            },
+            {
+              "token": "high",
+              "label": "High (>50)"
+            },
+            {
+              "token": "u5",
+              "label": "Under 5"
+            },
+            {
+              "token": "u10",
+              "label": "Under 10"
+            },
+            {
+              "token": "u15",
+              "label": "Under 15"
+            },
+            {
+              "token": "u20",
+              "label": "Under 20"
+            },
+            {
+              "token": "u25",
+              "label": "Under 25"
+            },
+            {
+              "token": "u30",
+              "label": "Under 30"
+            },
+            {
+              "token": "u35",
+              "label": "Under 35"
+            },
+            {
+              "token": "u40",
+              "label": "Under 40"
+            },
+            {
+              "token": "u45",
+              "label": "Under 45"
+            },
+            {
+              "token": "u50",
+              "label": "Under 50"
+            },
+            {
+              "token": "u60",
+              "label": "Under 60"
+            },
+            {
+              "token": "u70",
+              "label": "Under 70"
+            },
+            {
+              "token": "u80",
+              "label": "Under 80"
+            },
+            {
+              "token": "u90",
+              "label": "Under 90"
+            },
+            {
+              "token": "u100",
+              "label": "Under 100"
+            },
+            {
+              "token": "o5",
+              "label": "Over 5"
+            },
+            {
+              "token": "o10",
+              "label": "Over 10"
+            },
+            {
+              "token": "o15",
+              "label": "Over 15"
+            },
+            {
+              "token": "o20",
+              "label": "Over 20"
+            },
+            {
+              "token": "o25",
+              "label": "Over 25"
+            },
+            {
+              "token": "o30",
+              "label": "Over 30"
+            },
+            {
+              "token": "o35",
+              "label": "Over 35"
+            },
+            {
+              "token": "o40",
+              "label": "Over 40"
+            },
+            {
+              "token": "o45",
+              "label": "Over 45"
+            },
+            {
+              "token": "o50",
+              "label": "Over 50"
+            },
+            {
+              "token": "o60",
+              "label": "Over 60"
+            },
+            {
+              "token": "o70",
+              "label": "Over 70"
+            },
+            {
+              "token": "o80",
+              "label": "Over 80"
+            },
+            {
+              "token": "o90",
+              "label": "Over 90"
+            },
+            {
+              "token": "o100",
+              "label": "Over 100"
+            }
+          ]
+        },
+        {
+          "key": "evEbitda",
+          "label": "EV/EBITDA",
+          "group": "Valuation",
+          "prefix": "fa_evebitda_",
+          "options": [
+            {
+              "token": "negative",
+              "label": "Negative (<0)"
+            },
+            {
+              "token": "low",
+              "label": "Low (<15)"
+            },
+            {
+              "token": "profitable",
+              "label": "Profitable (>0)"
+            },
+            {
+              "token": "high",
+              "label": "High (>50)"
+            },
+            {
+              "token": "u5",
+              "label": "Under 5"
+            },
+            {
+              "token": "u10",
+              "label": "Under 10"
+            },
+            {
+              "token": "u15",
+              "label": "Under 15"
+            },
+            {
+              "token": "u20",
+              "label": "Under 20"
+            },
+            {
+              "token": "u25",
+              "label": "Under 25"
+            },
+            {
+              "token": "u30",
+              "label": "Under 30"
+            },
+            {
+              "token": "u35",
+              "label": "Under 35"
+            },
+            {
+              "token": "u40",
+              "label": "Under 40"
+            },
+            {
+              "token": "u45",
+              "label": "Under 45"
+            },
+            {
+              "token": "u50",
+              "label": "Under 50"
+            },
+            {
+              "token": "o5",
+              "label": "Over 5"
+            },
+            {
+              "token": "o10",
+              "label": "Over 10"
+            },
+            {
+              "token": "o15",
+              "label": "Over 15"
+            },
+            {
+              "token": "o20",
+              "label": "Over 20"
+            },
+            {
+              "token": "o25",
+              "label": "Over 25"
+            },
+            {
+              "token": "o30",
+              "label": "Over 30"
+            },
+            {
+              "token": "o35",
+              "label": "Over 35"
+            },
+            {
+              "token": "o40",
+              "label": "Over 40"
+            },
+            {
+              "token": "o45",
+              "label": "Over 45"
+            },
+            {
+              "token": "o50",
+              "label": "Over 50"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Momentum & Technical",
+      "filters": [
+        {
+          "key": "high52w",
+          "label": "52-Week High/Low",
+          "group": "Momentum & Technical",
+          "prefix": "ta_highlow52w_",
+          "options": [
+            {
+              "token": "nh",
+              "label": "New High"
+            },
+            {
+              "token": "nl",
+              "label": "New Low"
+            },
+            {
+              "token": "b5h",
+              "label": "5% or more below High"
+            },
+            {
+              "token": "b10h",
+              "label": "10% or more below High"
+            },
+            {
+              "token": "b15h",
+              "label": "15% or more below High"
+            },
+            {
+              "token": "b20h",
+              "label": "20% or more below High"
+            },
+            {
+              "token": "b30h",
+              "label": "30% or more below High"
+            },
+            {
+              "token": "b40h",
+              "label": "40% or more below High"
+            },
+            {
+              "token": "b50h",
+              "label": "50% or more below High"
+            },
+            {
+              "token": "b60h",
+              "label": "60% or more below High"
+            },
+            {
+              "token": "b70h",
+              "label": "70% or more below High"
+            },
+            {
+              "token": "b80h",
+              "label": "80% or more below High"
+            },
+            {
+              "token": "b90h",
+              "label": "90% or more below High"
+            },
+            {
+              "token": "b0to3h",
+              "label": "0-3% below High"
+            },
+            {
+              "token": "b0to5h",
+              "label": "0-5% below High"
+            },
+            {
+              "token": "b0to10h",
+              "label": "0-10% below High"
+            },
+            {
+              "token": "a5h",
+              "label": "5% or more above Low"
+            },
+            {
+              "token": "a10h",
+              "label": "10% or more above Low"
+            },
+            {
+              "token": "a15h",
+              "label": "15% or more above Low"
+            },
+            {
+              "token": "a20h",
+              "label": "20% or more above Low"
+            },
+            {
+              "token": "a30h",
+              "label": "30% or more above Low"
+            },
+            {
+              "token": "a40h",
+              "label": "40% or more above Low"
+            },
+            {
+              "token": "a50h",
+              "label": "50% or more above Low"
+            },
+            {
+              "token": "a60h",
+              "label": "60% or more above Low"
+            },
+            {
+              "token": "a70h",
+              "label": "70% or more above Low"
+            },
+            {
+              "token": "a80h",
+              "label": "80% or more above Low"
+            },
+            {
+              "token": "a90h",
+              "label": "90% or more above Low"
+            },
+            {
+              "token": "a100h",
+              "label": "100% or more above Low"
+            },
+            {
+              "token": "a120h",
+              "label": "120% or more above Low"
+            },
+            {
+              "token": "a150h",
+              "label": "150% or more above Low"
+            },
+            {
+              "token": "a200h",
+              "label": "200% or more above Low"
+            },
+            {
+              "token": "a300h",
+              "label": "300% or more above Low"
+            },
+            {
+              "token": "a500h",
+              "label": "500% or more above Low"
+            },
+            {
+              "token": "a0to3h",
+              "label": "0-3% above Low"
+            },
+            {
+              "token": "a0to5h",
+              "label": "0-5% above Low"
+            },
+            {
+              "token": "a0to10h",
+              "label": "0-10% above Low"
+            }
+          ]
+        },
+        {
+          "key": "relVol",
+          "label": "Relative Volume",
+          "group": "Momentum & Technical",
+          "prefix": "sh_relvol_",
+          "options": [
+            {
+              "token": "o10",
+              "label": "Over 10"
+            },
+            {
+              "token": "o5",
+              "label": "Over 5"
+            },
+            {
+              "token": "o3",
+              "label": "Over 3"
+            },
+            {
+              "token": "o2",
+              "label": "Over 2"
+            },
+            {
+              "token": "o1.5",
+              "label": "Over 1.5"
+            },
+            {
+              "token": "o1",
+              "label": "Over 1"
+            },
+            {
+              "token": "o0.75",
+              "label": "Over 0.75"
+            },
+            {
+              "token": "o0.5",
+              "label": "Over 0.5"
+            },
+            {
+              "token": "o0.25",
+              "label": "Over 0.25"
+            },
+            {
+              "token": "u2",
+              "label": "Under 2"
+            },
+            {
+              "token": "u1.5",
+              "label": "Under 1.5"
+            },
+            {
+              "token": "u1",
+              "label": "Under 1"
+            },
+            {
+              "token": "u0.75",
+              "label": "Under 0.75"
+            },
+            {
+              "token": "u0.5",
+              "label": "Under 0.5"
+            },
+            {
+              "token": "u0.25",
+              "label": "Under 0.25"
+            },
+            {
+              "token": "u0.1",
+              "label": "Under 0.1"
+            }
+          ]
+        },
+        {
+          "key": "rsi",
+          "label": "RSI (14)",
+          "group": "Momentum & Technical",
+          "prefix": "ta_rsi_",
+          "options": [
+            {
+              "token": "ob90",
+              "label": "Overbought (90)"
+            },
+            {
+              "token": "ob80",
+              "label": "Overbought (80)"
+            },
+            {
+              "token": "ob70",
+              "label": "Overbought (70)"
+            },
+            {
+              "token": "ob60",
+              "label": "Overbought (60)"
+            },
+            {
+              "token": "os40",
+              "label": "Oversold (40)"
+            },
+            {
+              "token": "os30",
+              "label": "Oversold (30)"
+            },
+            {
+              "token": "os20",
+              "label": "Oversold (20)"
+            },
+            {
+              "token": "os10",
+              "label": "Oversold (10)"
+            },
+            {
+              "token": "nob60",
+              "label": "Not Overbought (<60)"
+            },
+            {
+              "token": "nob50",
+              "label": "Not Overbought (<50)"
+            },
+            {
+              "token": "nos50",
+              "label": "Not Oversold (>50)"
+            },
+            {
+              "token": "nos40",
+              "label": "Not Oversold (>40)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Profitability",
+      "filters": [
+        {
+          "key": "roe",
+          "label": "Return on Equity",
+          "group": "Profitability",
+          "prefix": "fa_roe_",
+          "options": [
+            {
+              "token": "pos",
+              "label": "Positive (>0%)"
+            },
+            {
+              "token": "neg",
+              "label": "Negative (<0%)"
+            },
+            {
+              "token": "verypos",
+              "label": "Very Positive (>30%)"
+            },
+            {
+              "token": "veryneg",
+              "label": "Very Negative (<-15%)"
+            },
+            {
+              "token": "u-50",
+              "label": "Under -50%"
+            },
+            {
+              "token": "u-45",
+              "label": "Under -45%"
+            },
+            {
+              "token": "u-40",
+              "label": "Under -40%"
+            },
+            {
+              "token": "u-35",
+              "label": "Under -35%"
+            },
+            {
+              "token": "u-30",
+              "label": "Under -30%"
+            },
+            {
+              "token": "u-25",
+              "label": "Under -25%"
+            },
+            {
+              "token": "u-20",
+              "label": "Under -20%"
+            },
+            {
+              "token": "u-15",
+              "label": "Under -15%"
+            },
+            {
+              "token": "u-10",
+              "label": "Under -10%"
+            },
+            {
+              "token": "u-5",
+              "label": "Under -5%"
+            },
+            {
+              "token": "o5",
+              "label": "Over +5%"
+            },
+            {
+              "token": "o10",
+              "label": "Over +10%"
+            },
+            {
+              "token": "o15",
+              "label": "Over +15%"
+            },
+            {
+              "token": "o20",
+              "label": "Over +20%"
+            },
+            {
+              "token": "o25",
+              "label": "Over +25%"
+            },
+            {
+              "token": "o30",
+              "label": "Over +30%"
+            },
+            {
+              "token": "o35",
+              "label": "Over +35%"
+            },
+            {
+              "token": "o40",
+              "label": "Over +40%"
+            },
+            {
+              "token": "o45",
+              "label": "Over +45%"
+            },
+            {
+              "token": "o50",
+              "label": "Over +50%"
+            }
+          ]
+        },
+        {
+          "key": "netMargin",
+          "label": "Net Profit Margin",
+          "group": "Profitability",
+          "prefix": "fa_netmargin_",
+          "options": [
+            {
+              "token": "pos",
+              "label": "Positive (>0%)"
+            },
+            {
+              "token": "neg",
+              "label": "Negative (<0%)"
+            },
+            {
+              "token": "veryneg",
+              "label": "Very Negative (<-20%)"
+            },
+            {
+              "token": "high",
+              "label": "High (>20%)"
+            },
+            {
+              "token": "u90",
+              "label": "Under 90%"
+            },
+            {
+              "token": "u80",
+              "label": "Under 80%"
+            },
+            {
+              "token": "u70",
+              "label": "Under 70%"
+            },
+            {
+              "token": "u60",
+              "label": "Under 60%"
+            },
+            {
+              "token": "u50",
+              "label": "Under 50%"
+            },
+            {
+              "token": "u45",
+              "label": "Under 45%"
+            },
+            {
+              "token": "u40",
+              "label": "Under 40%"
+            },
+            {
+              "token": "u35",
+              "label": "Under 35%"
+            },
+            {
+              "token": "u30",
+              "label": "Under 30%"
+            },
+            {
+              "token": "u25",
+              "label": "Under 25%"
+            },
+            {
+              "token": "u20",
+              "label": "Under 20%"
+            },
+            {
+              "token": "u15",
+              "label": "Under 15%"
+            },
+            {
+              "token": "u10",
+              "label": "Under 10%"
+            },
+            {
+              "token": "u5",
+              "label": "Under 5%"
+            },
+            {
+              "token": "u0",
+              "label": "Under 0%"
+            },
+            {
+              "token": "u-10",
+              "label": "Under -10%"
+            },
+            {
+              "token": "u-20",
+              "label": "Under -20%"
+            },
+            {
+              "token": "u-30",
+              "label": "Under -30%"
+            },
+            {
+              "token": "u-50",
+              "label": "Under -50%"
+            },
+            {
+              "token": "u-70",
+              "label": "Under -70%"
+            },
+            {
+              "token": "u-100",
+              "label": "Under -100%"
+            },
+            {
+              "token": "o0",
+              "label": "Over 0%"
+            },
+            {
+              "token": "o5",
+              "label": "Over 5%"
+            },
+            {
+              "token": "o10",
+              "label": "Over 10%"
+            },
+            {
+              "token": "o15",
+              "label": "Over 15%"
+            },
+            {
+              "token": "o20",
+              "label": "Over 20%"
+            },
+            {
+              "token": "o25",
+              "label": "Over 25%"
+            },
+            {
+              "token": "o30",
+              "label": "Over 30%"
+            },
+            {
+              "token": "o35",
+              "label": "Over 35%"
+            },
+            {
+              "token": "o40",
+              "label": "Over 40%"
+            },
+            {
+              "token": "o45",
+              "label": "Over 45%"
+            },
+            {
+              "token": "o50",
+              "label": "Over 50%"
+            },
+            {
+              "token": "o60",
+              "label": "Over 60%"
+            },
+            {
+              "token": "o70",
+              "label": "Over 70%"
+            },
+            {
+              "token": "o80",
+              "label": "Over 80%"
+            },
+            {
+              "token": "o90",
+              "label": "Over 90%"
+            }
+          ]
+        },
+        {
+          "key": "epsGrowthQoq",
+          "label": "EPS Growth qtr/qtr",
+          "group": "Profitability",
+          "prefix": "fa_epsqoq_",
+          "options": [
+            {
+              "token": "neg",
+              "label": "Negative (<0%)"
+            },
+            {
+              "token": "pos",
+              "label": "Positive (>0%)"
+            },
+            {
+              "token": "poslow",
+              "label": "Positive Low (0-10%)"
+            },
+            {
+              "token": "high",
+              "label": "High (>25%)"
+            },
+            {
+              "token": "u5",
+              "label": "Under 5%"
+            },
+            {
+              "token": "u10",
+              "label": "Under 10%"
+            },
+            {
+              "token": "u15",
+              "label": "Under 15%"
+            },
+            {
+              "token": "u20",
+              "label": "Under 20%"
+            },
+            {
+              "token": "u25",
+              "label": "Under 25%"
+            },
+            {
+              "token": "u30",
+              "label": "Under 30%"
+            },
+            {
+              "token": "o5",
+              "label": "Over 5%"
+            },
+            {
+              "token": "o10",
+              "label": "Over 10%"
+            },
+            {
+              "token": "o15",
+              "label": "Over 15%"
+            },
+            {
+              "token": "o20",
+              "label": "Over 20%"
+            },
+            {
+              "token": "o25",
+              "label": "Over 25%"
+            },
+            {
+              "token": "o30",
+              "label": "Over 30%"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Balance Sheet",
+      "filters": [
+        {
+          "key": "debtEq",
+          "label": "Debt/Equity",
+          "group": "Balance Sheet",
+          "prefix": "fa_debteq_",
+          "options": [
+            {
+              "token": "high",
+              "label": "High (>0.5)"
+            },
+            {
+              "token": "low",
+              "label": "Low (<0.1)"
+            },
+            {
+              "token": "u1",
+              "label": "Under 1"
+            },
+            {
+              "token": "u0.9",
+              "label": "Under 0.9"
+            },
+            {
+              "token": "u0.8",
+              "label": "Under 0.8"
+            },
+            {
+              "token": "u0.7",
+              "label": "Under 0.7"
+            },
+            {
+              "token": "u0.6",
+              "label": "Under 0.6"
+            },
+            {
+              "token": "u0.5",
+              "label": "Under 0.5"
+            },
+            {
+              "token": "u0.4",
+              "label": "Under 0.4"
+            },
+            {
+              "token": "u0.3",
+              "label": "Under 0.3"
+            },
+            {
+              "token": "u0.2",
+              "label": "Under 0.2"
+            },
+            {
+              "token": "u0.1",
+              "label": "Under 0.1"
+            },
+            {
+              "token": "o0.1",
+              "label": "Over 0.1"
+            },
+            {
+              "token": "o0.2",
+              "label": "Over 0.2"
+            },
+            {
+              "token": "o0.3",
+              "label": "Over 0.3"
+            },
+            {
+              "token": "o0.4",
+              "label": "Over 0.4"
+            },
+            {
+              "token": "o0.5",
+              "label": "Over 0.5"
+            },
+            {
+              "token": "o0.6",
+              "label": "Over 0.6"
+            },
+            {
+              "token": "o0.7",
+              "label": "Over 0.7"
+            },
+            {
+              "token": "o0.8",
+              "label": "Over 0.8"
+            },
+            {
+              "token": "o0.9",
+              "label": "Over 0.9"
+            },
+            {
+              "token": "o1",
+              "label": "Over 1"
+            }
+          ]
+        },
+        {
+          "key": "currentRatio",
+          "label": "Current Ratio",
+          "group": "Balance Sheet",
+          "prefix": "fa_curratio_",
+          "options": [
+            {
+              "token": "high",
+              "label": "High (>3)"
+            },
+            {
+              "token": "low",
+              "label": "Low (<1)"
+            },
+            {
+              "token": "u1",
+              "label": "Under 1"
+            },
+            {
+              "token": "u0.5",
+              "label": "Under 0.5"
+            },
+            {
+              "token": "o0.5",
+              "label": "Over 0.5"
+            },
+            {
+              "token": "o1",
+              "label": "Over 1"
+            },
+            {
+              "token": "o1.5",
+              "label": "Over 1.5"
+            },
+            {
+              "token": "o2",
+              "label": "Over 2"
+            },
+            {
+              "token": "o3",
+              "label": "Over 3"
+            },
+            {
+              "token": "o4",
+              "label": "Over 4"
+            },
+            {
+              "token": "o5",
+              "label": "Over 5"
+            },
+            {
+              "token": "o10",
+              "label": "Over 10"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Ownership",
+      "filters": [
+        {
+          "key": "insiderOwn",
+          "label": "Insider Ownership",
+          "group": "Ownership",
+          "prefix": "sh_insiderown_",
+          "options": [
+            {
+              "token": "low",
+              "label": "Low (<5%)"
+            },
+            {
+              "token": "high",
+              "label": "High (>30%)"
+            },
+            {
+              "token": "veryhigh",
+              "label": "Very High (>50%)"
+            },
+            {
+              "token": "o10",
+              "label": "Over 10%"
+            },
+            {
+              "token": "o20",
+              "label": "Over 20%"
+            },
+            {
+              "token": "o30",
+              "label": "Over 30%"
+            },
+            {
+              "token": "o40",
+              "label": "Over 40%"
+            },
+            {
+              "token": "o50",
+              "label": "Over 50%"
+            },
+            {
+              "token": "o60",
+              "label": "Over 60%"
+            },
+            {
+              "token": "o70",
+              "label": "Over 70%"
+            },
+            {
+              "token": "o80",
+              "label": "Over 80%"
+            },
+            {
+              "token": "o90",
+              "label": "Over 90%"
+            }
+          ]
+        },
+        {
+          "key": "instOwn",
+          "label": "Institutional Ownership",
+          "group": "Ownership",
+          "prefix": "sh_instown_",
+          "options": [
+            {
+              "token": "low",
+              "label": "Low (<5%)"
+            },
+            {
+              "token": "high",
+              "label": "High (>90%)"
+            },
+            {
+              "token": "u90",
+              "label": "Under 90%"
+            },
+            {
+              "token": "u80",
+              "label": "Under 80%"
+            },
+            {
+              "token": "u70",
+              "label": "Under 70%"
+            },
+            {
+              "token": "u60",
+              "label": "Under 60%"
+            },
+            {
+              "token": "u50",
+              "label": "Under 50%"
+            },
+            {
+              "token": "u40",
+              "label": "Under 40%"
+            },
+            {
+              "token": "u30",
+              "label": "Under 30%"
+            },
+            {
+              "token": "u20",
+              "label": "Under 20%"
+            },
+            {
+              "token": "u10",
+              "label": "Under 10%"
+            },
+            {
+              "token": "o10",
+              "label": "Over 10%"
+            },
+            {
+              "token": "o20",
+              "label": "Over 20%"
+            },
+            {
+              "token": "o30",
+              "label": "Over 30%"
+            },
+            {
+              "token": "o40",
+              "label": "Over 40%"
+            },
+            {
+              "token": "o50",
+              "label": "Over 50%"
+            },
+            {
+              "token": "o60",
+              "label": "Over 60%"
+            },
+            {
+              "token": "o70",
+              "label": "Over 70%"
+            },
+            {
+              "token": "o80",
+              "label": "Over 80%"
+            },
+            {
+              "token": "o90",
+              "label": "Over 90%"
+            }
+          ]
+        },
+        {
+          "key": "shortFloat",
+          "label": "Short Float",
+          "group": "Ownership",
+          "prefix": "sh_short_",
+          "options": [
+            {
+              "token": "low",
+              "label": "Low (<5%)"
+            },
+            {
+              "token": "high",
+              "label": "High (>20%)"
+            },
+            {
+              "token": "u5",
+              "label": "Under 5%"
+            },
+            {
+              "token": "u10",
+              "label": "Under 10%"
+            },
+            {
+              "token": "u15",
+              "label": "Under 15%"
+            },
+            {
+              "token": "u20",
+              "label": "Under 20%"
+            },
+            {
+              "token": "u25",
+              "label": "Under 25%"
+            },
+            {
+              "token": "u30",
+              "label": "Under 30%"
+            },
+            {
+              "token": "o5",
+              "label": "Over 5%"
+            },
+            {
+              "token": "o10",
+              "label": "Over 10%"
+            },
+            {
+              "token": "o15",
+              "label": "Over 15%"
+            },
+            {
+              "token": "o20",
+              "label": "Over 20%"
+            },
+            {
+              "token": "o25",
+              "label": "Over 25%"
+            },
+            {
+              "token": "o30",
+              "label": "Over 30%"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Analyst",
+      "filters": [
+        {
+          "key": "targetPrice",
+          "label": "Analyst Target Price",
+          "group": "Analyst",
+          "prefix": "targetprice_",
+          "options": [
+            {
+              "token": "a50",
+              "label": "50% Above Price"
+            },
+            {
+              "token": "a40",
+              "label": "40% Above Price"
+            },
+            {
+              "token": "a30",
+              "label": "30% Above Price"
+            },
+            {
+              "token": "a20",
+              "label": "20% Above Price"
+            },
+            {
+              "token": "a10",
+              "label": "10% Above Price"
+            },
+            {
+              "token": "a5",
+              "label": "5% Above Price"
+            },
+            {
+              "token": "above",
+              "label": "Above Price"
+            },
+            {
+              "token": "below",
+              "label": "Below Price"
+            },
+            {
+              "token": "b5",
+              "label": "5% Below Price"
+            },
+            {
+              "token": "b10",
+              "label": "10% Below Price"
+            },
+            {
+              "token": "b20",
+              "label": "20% Below Price"
+            },
+            {
+              "token": "b30",
+              "label": "30% Below Price"
+            },
+            {
+              "token": "b40",
+              "label": "40% Below Price"
+            },
+            {
+              "token": "b50",
+              "label": "50% Below Price"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

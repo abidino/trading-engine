@@ -1,0 +1,30 @@
+{
+  "name": "tradingagents-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "typecheck": "nuxt typecheck",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@nuxt/icon": "^1.12.0",
+    "nuxt": "^3.17.0"
+  },
+  "devDependencies": {
+    "@nuxt/eslint": "^1.4.0",
+    "@nuxtjs/tailwindcss": "^6.14.0",
+    "@types/node": "^25.9.1",
+    "@vitejs/plugin-vue": "^6.0.7",
+    "@vue/test-utils": "^2.4.11",
+    "happy-dom": "^20.10.6",
+    "typescript": "^5.8.0",
+    "vitest": "^2.1.9",
+    "vue-tsc": "^2.2.0"
+  }
+}

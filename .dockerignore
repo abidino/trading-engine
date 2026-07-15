@@ -1,0 +1,8 @@
+target/
+ui/
+.git/
+.idea/
+*.iml
+*.log
+.DS_Store
+.copilot/
