@@ -79,7 +79,9 @@ cmake-build-*/
 *.iws
 
 # IntelliJ
-out/
+# Anchored to repo root so it only ignores IntelliJ's build output dir,
+# NOT hexagonal-architecture "port/out" source packages.
+/out/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
