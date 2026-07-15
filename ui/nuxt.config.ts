@@ -18,8 +18,18 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
+    // ── Server-only (never exposed to the browser) ──
+    // The real backend base URL + HTTP Basic credentials used by the
+    // /api/v1/** proxy route. Override in prod via env:
+    //   NUXT_API_PROXY_TARGET, NUXT_API_USERNAME, NUXT_API_PASSWORD
+    apiProxyTarget: process.env.NUXT_API_PROXY_TARGET || 'http://localhost:4650',
+    apiUsername: process.env.NUXT_API_USERNAME || 'admin',
+    apiPassword: process.env.NUXT_API_PASSWORD || 'changeme',
     public: {
-      apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || 'http://localhost:4650',
+      // Empty → the browser calls this app same-origin (/api/v1/**) and the
+      // server proxy forwards to the backend. Set NUXT_PUBLIC_API_BASE_URL only
+      // if you want the browser to hit the backend directly (bypassing the proxy).
+      apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || '',
     },
   },
 

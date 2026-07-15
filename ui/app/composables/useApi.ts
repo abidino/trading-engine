@@ -2,17 +2,18 @@ import type { ApiResponse, PaginatedResponse } from '~/types'
 
 export function useApi() {
   const config = useRuntimeConfig()
-  const baseUrl = config.public.apiBaseUrl
+  const baseUrl = config.public.apiBaseUrl || ''
+
+  function buildUrl(path: string, params?: Record<string, string>): string {
+    let url = `${baseUrl}/api/v1${path}`
+    if (params && Object.keys(params).length) {
+      url += `?${new URLSearchParams(params).toString()}`
+    }
+    return url
+  }
 
   async function get<T>(path: string, params?: Record<string, string>): Promise<T> {
-    const url = new URL(`/api/v1${path}`, baseUrl)
-    if (params) {
-      Object.entries(params).forEach(([key, value]) => {
-        url.searchParams.set(key, value)
-      })
-    }
-
-    const response = await $fetch<T>(url.toString(), {
+    const response = await $fetch<T>(buildUrl(path, params), {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     })
@@ -21,9 +22,7 @@ export function useApi() {
   }
 
   async function post<T>(path: string, body?: unknown): Promise<T> {
-    const url = `${baseUrl}/api/v1${path}`
-
-    const response = await $fetch<T>(url, {
+    const response = await $fetch<T>(buildUrl(path), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: body ? JSON.stringify(body) : undefined,
@@ -33,9 +32,7 @@ export function useApi() {
   }
 
   async function put<T>(path: string, body?: unknown): Promise<T> {
-    const url = `${baseUrl}/api/v1${path}`
-
-    const response = await $fetch<T>(url, {
+    const response = await $fetch<T>(buildUrl(path), {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: body ? JSON.stringify(body) : undefined,
@@ -45,9 +42,7 @@ export function useApi() {
   }
 
   async function del<T>(path: string): Promise<T> {
-    const url = `${baseUrl}/api/v1${path}`
-
-    const response = await $fetch<T>(url, {
+    const response = await $fetch<T>(buildUrl(path), {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
     })
