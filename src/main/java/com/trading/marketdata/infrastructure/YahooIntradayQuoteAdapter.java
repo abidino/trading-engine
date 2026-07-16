@@ -4,9 +4,7 @@ import com.trading.marketdata.domain.model.IntradayQuote;
 import com.trading.marketdata.domain.model.MarketSession;
 import com.trading.marketdata.domain.port.out.IntradayQuoteProviderPort;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestClient;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 
@@ -27,26 +25,19 @@ import java.util.Optional;
 @Component
 public class YahooIntradayQuoteAdapter implements IntradayQuoteProviderPort {
 
-    private final RestClient restClient;
+    private final YahooChartClient chartClient;
     private final ObjectMapper objectMapper;
 
-    public YahooIntradayQuoteAdapter(
-            @Value("${yahoo.base-url:https://query1.finance.yahoo.com}") String baseUrl,
-            ObjectMapper objectMapper) {
+    public YahooIntradayQuoteAdapter(YahooChartClient chartClient, ObjectMapper objectMapper) {
+        this.chartClient = chartClient;
         this.objectMapper = objectMapper;
-        this.restClient = RestClient.builder()
-                .baseUrl(baseUrl)
-                .defaultHeader("User-Agent", "TradingEngine/1.0")
-                .build();
     }
 
     @Override
     public Optional<IntradayQuote> fetchQuote(String ticker) {
         try {
-            String raw = restClient.get()
-                    .uri("/v8/finance/chart/{ticker}?interval=1m&range=1d&includePrePost=true", ticker)
-                    .retrieve()
-                    .body(String.class);
+            String raw = chartClient.get(
+                    "/v8/finance/chart/{ticker}?interval=1m&range=1d&includePrePost=true", ticker);
             return parse(ticker, raw);
         } catch (Exception e) {
             log.warn("Yahoo intraday quote fetch failed for {}: {}", ticker, e.getMessage());

@@ -6,9 +6,7 @@ import com.trading.marketdata.domain.model.PriceCandle;
 import com.trading.marketdata.domain.model.TechnicalSignal;
 import com.trading.marketdata.domain.port.out.MarketDataProviderPort;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestClient;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -24,17 +22,12 @@ import java.util.List;
 @Component
 public class YahooFinanceAdapter implements MarketDataProviderPort {
 
-    private final RestClient restClient;
+    private final YahooChartClient chartClient;
     private final ObjectMapper objectMapper;
 
-    public YahooFinanceAdapter(
-            @Value("${yahoo.base-url:https://query1.finance.yahoo.com}") String baseUrl,
-            ObjectMapper objectMapper) {
+    public YahooFinanceAdapter(YahooChartClient chartClient, ObjectMapper objectMapper) {
+        this.chartClient = chartClient;
         this.objectMapper = objectMapper;
-        this.restClient = RestClient.builder()
-                .baseUrl(baseUrl)
-                .defaultHeader("User-Agent", "TradingEngine/1.0")
-                .build();
     }
 
     @Override
@@ -43,11 +36,9 @@ public class YahooFinanceAdapter implements MarketDataProviderPort {
             long period1 = from.atStartOfDay().toEpochSecond(ZoneOffset.UTC);
             long period2 = to.atStartOfDay().toEpochSecond(ZoneOffset.UTC);
 
-            String raw = restClient.get()
-                    .uri("/v8/finance/chart/{ticker}?period1={p1}&period2={p2}&interval=1d",
-                            ticker, period1, period2)
-                    .retrieve()
-                    .body(String.class);
+            String raw = chartClient.get(
+                    "/v8/finance/chart/{ticker}?period1={p1}&period2={p2}&interval=1d",
+                    ticker, period1, period2);
 
             return parseCandles(ticker, raw);
         } catch (Exception e) {

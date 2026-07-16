@@ -7,6 +7,7 @@ import com.trading.marketdata.domain.port.out.IntradayQuoteRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
@@ -29,6 +30,7 @@ public class IntradayQuoteApplicationService implements IntradayQuoteUseCase {
     private final IntradayQuoteRepository quoteRepository;
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public IntradayQuote refreshQuote(String ticker) {
         String symbol = ticker.toUpperCase();
         IntradayQuote quote = quoteProvider.fetchQuote(symbol)

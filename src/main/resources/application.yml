@@ -154,6 +154,9 @@ alerts:
 # ─────────────────────────────────────────────────────────────────────────────
 yahoo:
   base-url: https://query1.finance.yahoo.com
+  user-agent: ""
+  max-retries: 3
+  retry-backoff-ms: 600
 
 finviz:
   # Free, keyless screener (finviz.com/screener.ashx). No subscription required.

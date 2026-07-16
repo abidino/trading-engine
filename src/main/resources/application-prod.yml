@@ -144,6 +144,10 @@ notification:
 # ─────────────────────────────────────────────────────────────────────────────
 yahoo:
   base-url: https://query1.finance.yahoo.com
+  # Blank => built-in browser User-Agent. Retry/backoff softens Yahoo's 429s on cloud IPs.
+  user-agent: ""
+  max-retries: 4
+  retry-backoff-ms: 800
 
 finviz:
   base-url: https://finviz.com

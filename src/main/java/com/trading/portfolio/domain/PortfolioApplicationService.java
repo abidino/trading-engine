@@ -16,6 +16,7 @@ import com.trading.shared.kernel.event.AnalysisRequested;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -80,6 +81,7 @@ public class PortfolioApplicationService implements PortfolioUseCase {
      * resilient to provider failures (e.g. rate limits) — never throws.
      */
     @Override
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void refreshHeldQuotes() {
         Instant now = Instant.now();
         for (PortfolioPosition position : positionRepository.findAllActive()) {
