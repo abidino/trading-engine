@@ -4,6 +4,31 @@ export function useApi() {
   const config = useRuntimeConfig()
   const baseUrl = config.public.apiBaseUrl || ''
 
+  function getAuthHeaders(): Record<string, string> {
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+    
+    let token: string | null = null
+    
+    if (import.meta.client) {
+      // Client-side: try localStorage first, then cookie
+      token = localStorage.getItem('auth_token')
+      if (!token) {
+        const cookie = useCookie('auth_token')
+        token = cookie.value || null
+      }
+    } else {
+      // Server-side: use cookie
+      const cookie = useCookie('auth_token')
+      token = cookie.value || null
+    }
+    
+    if (token) {
+      headers['Authorization'] = `Basic ${token}`
+    }
+    
+    return headers
+  }
+
   function buildUrl(path: string, params?: Record<string, string>): string {
     let url = `${baseUrl}/api/v1${path}`
     if (params && Object.keys(params).length) {
@@ -15,7 +40,7 @@ export function useApi() {
   async function get<T>(path: string, params?: Record<string, string>): Promise<T> {
     const response = await $fetch<T>(buildUrl(path, params), {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
     })
 
     return response
@@ -24,7 +49,7 @@ export function useApi() {
   async function post<T>(path: string, body?: unknown): Promise<T> {
     const response = await $fetch<T>(buildUrl(path), {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
       body: body ? JSON.stringify(body) : undefined,
     })
 
@@ -34,7 +59,7 @@ export function useApi() {
   async function put<T>(path: string, body?: unknown): Promise<T> {
     const response = await $fetch<T>(buildUrl(path), {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
       body: body ? JSON.stringify(body) : undefined,
     })
 
@@ -44,7 +69,7 @@ export function useApi() {
   async function del<T>(path: string): Promise<T> {
     const response = await $fetch<T>(buildUrl(path), {
       method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
     })
 
     return response

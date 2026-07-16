@@ -30,6 +30,8 @@ export default defineNuxtConfig({
       // server proxy forwards to the backend. Set NUXT_PUBLIC_API_BASE_URL only
       // if you want the browser to hit the backend directly (bypassing the proxy).
       apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || '',
+      recaptchaSiteKey: process.env.NUXT_PUBLIC_RECAPTCHA_SITE_KEY || '',
+      recaptchaEnabled: process.env.NUXT_PUBLIC_RECAPTCHA_ENABLED === 'true',
     },
   },
 

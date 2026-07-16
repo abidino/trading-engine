@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const route = useRoute()
+const router = useRouter()
 
 const navigation = [
   { name: 'Dashboard', path: '/', icon: 'heroicons:chart-bar-square' },
@@ -14,9 +15,38 @@ const navigation = [
   { name: 'Jobs', path: '/jobs', icon: 'heroicons:clock' },
 ]
 
+const username = ref('')
+
+onMounted(() => {
+  if (import.meta.client) {
+    let user = localStorage.getItem('username')
+    if (!user) {
+      const cookie = useCookie('username')
+      user = cookie.value || 'User'
+    }
+    username.value = user
+  }
+})
+
 const isActive = (path: string) => {
   if (path === '/') return route.path === '/'
   return route.path.startsWith(path)
+}
+
+function handleLogout() {
+  if (import.meta.client) {
+    localStorage.removeItem('auth_token')
+    localStorage.removeItem('username')
+  }
+  
+  // Clear cookies
+  const authCookie = useCookie('auth_token')
+  authCookie.value = null
+  
+  const usernameCookie = useCookie('username')
+  usernameCookie.value = null
+  
+  router.push('/login')
 }
 </script>
 
@@ -48,6 +78,25 @@ const isActive = (path: string) => {
       <!-- Connection Status -->
       <div class="border-t border-gray-800 px-4 py-3">
         <CommonEventStatus />
+      </div>
+
+      <!-- User Info & Logout -->
+      <div class="border-t border-gray-800 px-4 py-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="flex h-8 w-8 items-center justify-center rounded-full bg-gray-700">
+              <Icon name="heroicons:user" class="h-4 w-4 text-gray-300" />
+            </div>
+            <span class="text-sm text-gray-300">{{ username }}</span>
+          </div>
+          <button
+            class="rounded p-1.5 text-gray-400 transition hover:bg-gray-800 hover:text-white"
+            title="Logout"
+            @click="handleLogout"
+          >
+            <Icon name="heroicons:arrow-right-on-rectangle" class="h-5 w-5" />
+          </button>
+        </div>
       </div>
     </aside>
 

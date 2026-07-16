@@ -179,6 +179,10 @@ app:
   security:
     username: ${APP_AUTH_USERNAME}
     password: ${APP_AUTH_PASSWORD}
+  recaptcha:
+    site-key: ${RECAPTCHA_SITE_KEY}
+    secret-key: ${RECAPTCHA_SECRET_KEY}
+    enabled: ${RECAPTCHA_ENABLED:true}
   cors:
     # Comma-separated origin patterns for the separately-deployed UI.
     allowed-origins: "http://localhost:3000,http://localhost:*"
