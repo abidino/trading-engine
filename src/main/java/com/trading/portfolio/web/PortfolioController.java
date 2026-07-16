@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,6 +32,19 @@ public class PortfolioController {
         portfolioUseCase.refreshHeldQuotes();
         return ResponseEntity.ok(portfolioUseCase.listActivePositions()
                 .stream().map(PositionResponse::from).toList());
+    }
+
+    /** Refreshes live quote for a specific ticker. */
+    @PostMapping("/refresh/{ticker}")
+    public ResponseEntity<PositionResponse> refreshTickerQuote(@PathVariable String ticker) {
+        portfolioUseCase.refreshTickerQuote(new Ticker(ticker));
+        return portfolioUseCase.listActivePositions()
+                .stream()
+                .filter(p -> p.getTicker().value().equals(ticker))
+                .findFirst()
+                .map(PositionResponse::from)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/positions/closed")

@@ -31,6 +31,21 @@ export function usePortfolio() {
     }
   }
 
+  // Refresh live quote for a specific ticker and update positions.
+  async function refreshTickerQuote(ticker: string) {
+    try {
+      const updatedPosition = await api.post<Position>(`/portfolio/refresh/${ticker}`)
+      // Update the position in the local state
+      const index = positions.value.findIndex(p => p.ticker === ticker)
+      if (index !== -1) {
+        positions.value[index] = updatedPosition
+      }
+    } catch (e: any) {
+      error.value = e.message || 'Failed to refresh quote'
+      throw e
+    }
+  }
+
   async function fetchSoldPositions() {
     try {
       soldPositions.value = await api.get<SoldPosition[]>('/portfolio/positions/closed')
@@ -81,6 +96,7 @@ export function usePortfolio() {
     error: readonly(error),
     fetchPositions,
     refreshQuotes,
+    refreshTickerQuote,
     fetchSoldPositions,
     fetchTransactions,
     fetchSummary,

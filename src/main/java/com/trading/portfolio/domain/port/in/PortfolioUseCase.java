@@ -22,6 +22,9 @@ public interface PortfolioUseCase {
     /** Best-effort refresh of live intraday quotes for all held tickers (page-load refresh). */
     void refreshHeldQuotes();
 
+    /** Best-effort refresh of live intraday quote for a specific ticker. */
+    void refreshTickerQuote(Ticker ticker);
+
     /** Records a BUY or SELL transaction and updates the position accordingly. */
     PortfolioTransaction recordTransaction(
             Ticker ticker, TransactionType type,

@@ -7,6 +7,7 @@ const {
   loading,
   fetchPositions,
   refreshQuotes,
+  refreshTickerQuote,
   fetchSoldPositions,
   fetchTransactions,
   fetchSummary,
@@ -21,6 +22,7 @@ onMounted(async () => {
 
 const activeTab = ref<'open' | 'sold'>('open')
 const showAddForm = ref(false)
+const refreshingTicker = ref<string | null>(null)
 const form = reactive({
   ticker: '',
   transactionType: 'BUY' as 'BUY' | 'SELL',
@@ -51,6 +53,15 @@ async function handleSubmit() {
   form.quantity = 0
   form.price = 0
   form.commission = 1.5
+}
+
+async function handleRefreshTicker(ticker: string) {
+  refreshingTicker.value = ticker
+  try {
+    await refreshTickerQuote(ticker)
+  } finally {
+    refreshingTicker.value = null
+  }
 }
 </script>
 
@@ -207,6 +218,7 @@ async function handleSubmit() {
               <th class="pb-3 font-medium">Market Value</th>
               <th class="pb-3 font-medium">P&amp;L</th>
               <th class="pb-3 font-medium">%</th>
+              <th class="pb-3 font-medium">Actions</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-800">
@@ -221,6 +233,22 @@ async function handleSubmit() {
               </td>
               <td class="py-3" :class="Number(pos.unrealizedPnlPercent) >= 0 ? 'text-green-400' : 'text-red-400'">
                 {{ formatPercent(pos.unrealizedPnlPercent) }}
+              </td>
+              <td class="py-3">
+                <button
+                  class="rounded bg-blue-600 px-2 py-1 text-xs text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                  :disabled="refreshingTicker === pos.ticker"
+                  @click="handleRefreshTicker(pos.ticker)"
+                >
+                  <span v-if="refreshingTicker === pos.ticker" class="flex items-center gap-1">
+                    <Icon name="svg-spinners:ring-resize" class="h-3 w-3" />
+                    <span>Refreshing...</span>
+                  </span>
+                  <span v-else class="flex items-center gap-1">
+                    <Icon name="heroicons:arrow-path" class="h-3 w-3" />
+                    <span>Refresh Price</span>
+                  </span>
+                </button>
               </td>
             </tr>
           </tbody>

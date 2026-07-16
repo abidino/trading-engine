@@ -99,6 +99,30 @@ public class PortfolioApplicationService implements PortfolioUseCase {
         }
     }
 
+    /**
+     * Best-effort refresh of live intraday quote for a specific ticker.
+     * Throttled and resilient to provider failures — never throws.
+     */
+    @Override
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public void refreshTickerQuote(Ticker ticker) {
+        Instant now = Instant.now();
+        String tickerStr = ticker.value();
+        Instant last = lastQuoteRefresh.get(tickerStr);
+        if (last != null && Duration.between(last, now).compareTo(QUOTE_REFRESH_TTL) < 0) {
+            log.debug("Quote refresh throttled for {} (last refresh {}s ago)", 
+                tickerStr, Duration.between(last, now).toSeconds());
+            return;
+        }
+        try {
+            intradayQuoteUseCase.refreshQuote(tickerStr);
+            lastQuoteRefresh.put(tickerStr, now);
+            log.debug("Quote refreshed for {}", tickerStr);
+        } catch (Exception e) {
+            log.debug("Quote refresh skipped for {}: {}", tickerStr, e.getMessage());
+        }
+    }
+
     @Override
     @Transactional(readOnly = true)
     public List<PortfolioPosition> listAllPositions() {
