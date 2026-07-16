@@ -11,7 +11,9 @@ import org.springframework.web.client.RestClient;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /** Calls OpenAI /v1/chat/completions with JSON mode enforced. */
@@ -40,16 +42,17 @@ public class OpenAiLlmAdapter implements LlmPort {
         String model = request.modelOverride() != null ? request.modelOverride() : config.getModel();
         Instant start = Instant.now();
 
-        Map<String, Object> body = Map.of(
-                "model", model,
-                "messages", List.of(
-                        Map.of("role", "system", "content", request.systemPrompt()),
-                        Map.of("role", "user", "content", request.userPrompt())
-                ),
-                "temperature", request.temperature(),
-                "max_tokens", request.maxTokens(),
-                "response_format", Map.of("type", "json_object")
-        );
+        Map<String, Object> body = new HashMap<>();
+        body.put("model", model);
+        body.put("messages", List.of(
+                Map.of("role", "system", "content", request.systemPrompt()),
+                Map.of("role", "user", "content", request.userPrompt())
+        ));
+        body.put("temperature", request.temperature());
+        body.put("max_tokens", request.maxTokens());
+        if (wantsJsonResponse(request)) {
+            body.put("response_format", Map.of("type", "json_object"));
+        }
 
         try {
             String raw = restClient.post()
@@ -65,5 +68,18 @@ public class OpenAiLlmAdapter implements LlmPort {
         } catch (Exception e) {
             throw new RuntimeException("OpenAI LLM call failed: " + e.getMessage(), e);
         }
+    }
+
+    /**
+     * OpenAI rejects {@code response_format=json_object} unless the word "json" appears in the
+     * prompt. Prose requests (e.g. news/social summaries) omit it, so only enable JSON mode when
+     * the prompt actually asks for JSON output.
+     */
+    private static boolean wantsJsonResponse(LlmRequest request) {
+        return mentionsJson(request.systemPrompt()) || mentionsJson(request.userPrompt());
+    }
+
+    private static boolean mentionsJson(String text) {
+        return text != null && text.toLowerCase(Locale.ROOT).contains("json");
     }
 }

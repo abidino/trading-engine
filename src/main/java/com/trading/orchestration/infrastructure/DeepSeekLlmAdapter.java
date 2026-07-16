@@ -15,6 +15,7 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -88,7 +89,7 @@ public class DeepSeekLlmAdapter implements LlmPort {
         ));
         body.put("max_tokens", request.maxTokens());
         body.put("stream", false);
-        if (config.isJsonMode()) {
+        if (config.isJsonMode() && wantsJsonResponse(request)) {
             body.put("response_format", Map.of("type", "json_object"));
         }
         if (thinking) {
@@ -123,6 +124,19 @@ public class DeepSeekLlmAdapter implements LlmPort {
     /** True when this request type should run in thinking mode (per YAML config). */
     private boolean useThinking(AnalysisRequestType type) {
         return config.isThinkingEnabled() && type != null && thinkingTypes.contains(type.name());
+    }
+
+    /**
+     * DeepSeek (like OpenAI) rejects {@code response_format=json_object} unless the word
+     * "json" appears in the prompt. Prose requests (e.g. news/social summaries) legitimately
+     * omit it, so only enable JSON mode when the prompt actually asks for JSON output.
+     */
+    private static boolean wantsJsonResponse(LlmRequest request) {
+        return mentionsJson(request.systemPrompt()) || mentionsJson(request.userPrompt());
+    }
+
+    private static boolean mentionsJson(String text) {
+        return text != null && text.toLowerCase(Locale.ROOT).contains("json");
     }
 
     private static Set<String> parseTypes(String csv) {
