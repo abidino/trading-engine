@@ -1,5 +1,5 @@
 server:
-  port: 4650
+  port: ${SERVER_PORT:8080}
 
 spring:
   application:
@@ -16,7 +16,7 @@ spring:
       minimum-idle: ${DB_POOL_MIN:5}
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: ${JPA_DDL_AUTO:update}
     show-sql: false
     properties:
       hibernate:
@@ -39,7 +39,7 @@ spring:
 # LLM Configuration
 # ─────────────────────────────────────────────────────────────────────────────
 llm:
-  default-provider: ollama
+  default-provider: ${LLM_PROVIDER}
 
   providers:
     ollama:
@@ -60,10 +60,10 @@ llm:
       model: ${PROXY_MODEL:gpt-4.1}
     deepseek:
       base-url: ${DEEPSEEK_BASE_URL:https://api.deepseek.com}
-      api-key: ${DEEPSEEK_API_KEY:}
+      api-key: ${DEEPSEEK_API_KEY}
       model: ${DEEPSEEK_MODEL:deepseek-v4-flash}
       thinking-enabled: ${DEEPSEEK_THINKING:true}
-      thinking-types: PORTFOLIO_REVIEW,WATCHLIST_REVIEW,DISCOVERY
+      thinking-types: ${DEEPSEEK_THINKING_TYPES:PORTFOLIO_REVIEW,WATCHLIST_REVIEW,DISCOVERY}
       reasoning-effort: ${DEEPSEEK_EFFORT:high}
       json-mode: true
 
@@ -78,28 +78,28 @@ llm:
 # ─────────────────────────────────────────────────────────────────────────────
 scheduler:
   discovery:
-    # 05:00 UTC premarket — moved off 07:00 to dodge DeepSeek peak (06:00-10:00 UTC)
-    cron: "0 0 5 * * MON-FRI"
+    cron: ${DISCOVERY_CRON:0 0 5 * * MON-FRI}
   portfolio:
-    # ~5h sweep, 7 days a week. Hours chosen to avoid DeepSeek peak windows
-    # (01:00-04:00 & 06:00-10:00 UTC): runs at 00,05,11,15,19,23.
-    cron: "0 0 0,5,11,15,19,23 * * *"
+    cron: ${PORTFOLIO_CRON:0 0 0,5,11,15,19,23 * * *}
   watchlist:
-    cron: "0 0 0,5,11,15,19,23 * * *"
+    cron: ${WATCHLIST_CRON:0 0 0,5,11,15,19,23 * * *}
   technical:
-    # 21:30 UTC ≈ 30 min after the US market close (16:00 US/Eastern)
-    cron: "0 30 21 * * MON-FRI"
-    # Candle look-back window; needs ~250+ trading days for EMA-200
-    lookback-days: 400
+    cron: ${TECHNICAL_CRON:0 30 21 * * MON-FRI}
   news:
-    # Hourly scan of macro + per-ticker news, skipping DeepSeek peak hours
-    # (01:00-04:00 & 06:00-10:00 UTC) since each article is LLM-classified.
-    cron: "0 0 0,4,5,10,11,12,13,14,15,16,17,18,19,20,21,22,23 * * *"
-    per-ticker-limit: 15
-    macro-limit: 30
+    cron: ${NEWS_CRON:0 0 0,4,5,10,11,12,13,14,15,16,17,18,19,20,21,22,23 * * *}
+    per-ticker-limit: ${NEWS_PER_TICKER_LIMIT:15}
+    macro-limit: ${NEWS_MACRO_LIMIT:30}
   intraday:
-    # Every 5 minutes — refresh live pre/regular/post quotes for held + watched tickers (Yahoo)
-    cron: "0 0/5 * * * *"
+    cron: ${INTRADAY_CRON:0 0/10 * * * *}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Decision journal — automatic outcome evaluation (feedback loop)
+# ─────────────────────────────────────────────────────────────────────────────
+decisions:
+  evaluation:
+    cron: ${DECISION_EVAL_CRON:0 30 1 * * *}
+    min-age-days: ${DECISION_EVAL_MIN_AGE_DAYS:5}
+    band-pct: ${DECISION_EVAL_BAND_PCT:3.0}
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Orchestration
@@ -121,53 +121,40 @@ orchestration:
 # Notification
 # ─────────────────────────────────────────────────────────────────────────────
 notification:
-  confidence-threshold: 0.70
-  alert-actions: BUY,SELL
+  confidence-threshold: ${NOTIFY_CONFIDENCE_THRESHOLD:0.70}
+  alert-actions: ${NOTIFY_ALERT_ACTIONS:BUY,SELL}
   email:
-    to: ${ALERT_EMAIL_TO:}
-    from: no-reply@tradingengine.local
+    to: ${ALERT_EMAIL_TO}
+    from: ${ALERT_EMAIL_FROM}
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Decision journal — automatic outcome evaluation (feedback loop)
-# ─────────────────────────────────────────────────────────────────────────────
-decisions:
-  evaluation:
-    # Nightly at 01:30. Resolves PENDING decisions older than min-age-days against
-    # realised price move; |move| judged against band-pct (see verdict rules in service).
-    cron: 0 30 1 * * *
-    min-age-days: 5
-    band-pct: 3.0
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Proactive threshold alerts (Flow 5) — notify when price hits actionable levels
 # ─────────────────────────────────────────────────────────────────────────────
+
 alerts:
-  enabled: true
-  # Every 5 minutes; each condition fires at most once per day (de-duplicated).
-  cron: 0 0/5 * * * *
-  # Only evaluate during the US extended session (Mon–Fri 04:00–20:00 ET).
-  market-hours-only: true
-  # Whole-portfolio daily drop (%) that triggers a "portfolio down" alert.
-  portfolio-drop-pct: 5.0
+  enabled: ${ALERTS_ENABLED:true}
+  cron: ${ALERTS_CRON:0 0/5 * * * *}
+  market-hours-only: ${ALERTS_MARKET_HOURS_ONLY:true}
+  portfolio-drop-pct: ${ALERTS_PORTFOLIO_DROP_PCT:5.0}
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 yahoo:
   base-url: https://query1.finance.yahoo.com
+  # Blank => built-in browser User-Agent. Retry/backoff softens Yahoo's 429s on cloud IPs.
   user-agent: ""
-  max-retries: 3
-  retry-backoff-ms: 600
+  max-retries: 4
+  retry-backoff-ms: 800
 
 finviz:
-  # Free, keyless screener (finviz.com/screener.ashx). No subscription required.
-  # auth-token is optional — if a Finviz Elite token is provided it unlocks more rows.
   base-url: https://finviz.com
-  auth-token: ${FINVIZ_AUTH_TOKEN:}
-  max-pages: 3
+  auth-token: ${FINVIZ_AUTH_TOKEN}
+  max-pages: ${FINVIZ_MAX_PAGES:3}
 
 newsapi:
   base-url: https://newsapi.org
-  api-key: ${NEWSAPI_KEY:}
+  api-key: ${NEWSAPI_KEY}
 
 reddit:
   base-url: https://www.reddit.com
@@ -184,8 +171,7 @@ app:
     secret-key: ${RECAPTCHA_SECRET_KEY}
     enabled: ${RECAPTCHA_ENABLED:true}
   cors:
-    # Comma-separated origin patterns for the separately-deployed UI.
-    allowed-origins: "http://localhost:3000,http://localhost:*"
+    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:*}
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Management / Actuator
@@ -194,8 +180,14 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
 logging:
   level:
-    com.trading: INFO
+    root: INFO
+    com.trading: ${LOG_LEVEL:INFO}
     org.springframework.web: WARN
+    org.hibernate: WARN
