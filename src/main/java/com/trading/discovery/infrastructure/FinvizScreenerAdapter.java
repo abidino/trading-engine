@@ -97,13 +97,21 @@ public class FinvizScreenerAdapter implements StockScreenerPort {
                         .retrieve()
                         .body(String.class);
 
+                if (page == 0 && log.isDebugEnabled()) {
+                    // Log first 2000 chars of HTML for debugging
+                    String preview = html != null && html.length() > 2000 ? html.substring(0, 2000) : html;
+                    log.debug("Finviz HTML preview (first 2000 chars):\n{}", preview);
+                }
+
                 List<PotentialStock> pageStocks = parseHtml(html);
                 if (pageStocks.isEmpty()) {
+                    log.warn("Page {} returned no valid stocks, stopping pagination", page + 1);
                     break;
                 }
                 for (PotentialStock s : pageStocks) {
                     bySymbol.putIfAbsent(s.ticker().value(), s);
                 }
+                log.info("Page {}: found {} stocks (cumulative: {})", page + 1, pageStocks.size(), bySymbol.size());
                 if (pageStocks.size() < ROWS_PER_PAGE) {
                     break;
                 }
@@ -111,7 +119,7 @@ public class FinvizScreenerAdapter implements StockScreenerPort {
             log.info("Finviz (free) screen returned {} unique tickers", bySymbol.size());
             return new ArrayList<>(bySymbol.values());
         } catch (Exception e) {
-            log.warn("Finviz screen failed: {}", e.getMessage());
+            log.error("Finviz screen failed", e);
             return List.of();
         }
     }
@@ -125,45 +133,78 @@ public class FinvizScreenerAdapter implements StockScreenerPort {
     private static final Pattern ROW_PATTERN = Pattern.compile("<tr[^>]*>(.*?)</tr>", Pattern.DOTALL);
     private static final Pattern CELL_PATTERN = Pattern.compile("<td[^>]*>(.*?)</td>", Pattern.DOTALL);
     private static final Pattern TAG_PATTERN = Pattern.compile("<[^>]+>");
-    private static final Pattern TICKER_LINK_PATTERN = Pattern.compile("(?:stock|quote)\\.ashx\\?t=[A-Z.]+|stock\\?t=[A-Z.]+");
+    private static final Pattern TICKER_LINK_PATTERN = Pattern.compile("(?:stock|quote)\\.ashx\\?t=([A-Z][A-Z0-9.-]*)|stock\\?t=([A-Z][A-Z0-9.-]*)");
 
     private List<PotentialStock> parseHtml(String html) {
         if (html == null || html.isBlank()) {
+            log.warn("Finviz returned empty HTML");
             return List.of();
         }
         int tableStart = html.indexOf("styled-table-new");
+        if (tableStart < 0) {
+            log.warn("Finviz HTML does not contain 'styled-table-new' table marker");
+            // Try alternative table marker
+            tableStart = html.indexOf("table-light");
+        }
         String scope = tableStart >= 0 ? html.substring(tableStart) : html;
 
         List<PotentialStock> results = new ArrayList<>();
         Matcher rowMatcher = ROW_PATTERN.matcher(scope);
+        int rowCount = 0;
         while (rowMatcher.find()) {
             String row = rowMatcher.group(1);
-            if (!TICKER_LINK_PATTERN.matcher(row).find()) {
+            
+            // Extract ticker from link pattern
+            Matcher tickerMatcher = TICKER_LINK_PATTERN.matcher(row);
+            if (!tickerMatcher.find()) {
                 continue;
             }
+            String tickerFromLink = tickerMatcher.group(1) != null ? tickerMatcher.group(1) : tickerMatcher.group(2);
+            if (tickerFromLink == null || tickerFromLink.isEmpty()) {
+                continue;
+            }
+            
+            rowCount++;
             List<String> cols = new ArrayList<>();
             Matcher cellMatcher = CELL_PATTERN.matcher(row);
             while (cellMatcher.find()) {
                 cols.add(stripHtml(cellMatcher.group(1)));
             }
+            
+            if (log.isDebugEnabled() && rowCount <= 3) {
+                log.debug("Row {}: ticker='{}', columns={}: {}", rowCount, tickerFromLink, cols.size(), cols);
+            }
+            
             // Expect: [No, Ticker, Company, Sector, Industry, Country, MarketCap, P/E, Price, Change, Volume]
-            if (cols.size() < 9) {
+            // But structure may vary - be flexible
+            if (cols.size() < 3) {
+                log.warn("Row {}: only {} columns, skipping", rowCount, cols.size());
                 continue;
             }
-            String symbol = cols.get(1);
-            if (symbol.isEmpty() || !symbol.matches("[A-Z.]+")) {
+            
+            // Validate ticker
+            if (!tickerFromLink.matches("[A-Z][A-Z0-9.-]*")) {
+                log.warn("Row {}: Invalid ticker '{}', skipping", rowCount, tickerFromLink);
                 continue;
             }
+            
+            if (log.isDebugEnabled() && rowCount <= 5) {
+                log.debug("Row {}: Valid ticker '{}' accepted", rowCount, tickerFromLink);
+            }
+            
             Map<String, String> criteria = new LinkedHashMap<>();
-            putIfPresent(criteria, "company", cols, 2);
-            putIfPresent(criteria, "sector", cols, 3);
-            putIfPresent(criteria, "industry", cols, 4);
-            putIfPresent(criteria, "country", cols, 5);
-            putIfPresent(criteria, "marketCap", cols, 6);
-            putIfPresent(criteria, "peRatio", cols, 7);
-            putIfPresent(criteria, "price", cols, 8);
-            results.add(PotentialStock.create(new Ticker(symbol), "finviz", criteria));
+            // Be flexible with column positions - use what's available
+            if (cols.size() > 2) putIfPresent(criteria, "company", cols, 2);
+            if (cols.size() > 3) putIfPresent(criteria, "sector", cols, 3);
+            if (cols.size() > 4) putIfPresent(criteria, "industry", cols, 4);
+            if (cols.size() > 5) putIfPresent(criteria, "country", cols, 5);
+            if (cols.size() > 6) putIfPresent(criteria, "marketCap", cols, 6);
+            if (cols.size() > 7) putIfPresent(criteria, "peRatio", cols, 7);
+            if (cols.size() > 8) putIfPresent(criteria, "price", cols, 8);
+            
+            results.add(PotentialStock.create(new Ticker(tickerFromLink), "finviz", criteria));
         }
+        log.info("Finviz HTML parsing: processed {} ticker rows, extracted {} valid stocks", rowCount, results.size());
         return results;
     }
 
