@@ -24,8 +24,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -80,6 +82,16 @@ public class AlertEvaluationService {
         LocalDate today = LocalDate.now();
         int fired = 0;
 
+        // Cost basis per held ticker → lets us gate stop-loss / take-profit alerts against the
+        // user's actual average entry price instead of the generically-computed analysis levels.
+        Map<String, Double> costBasisByTicker = new HashMap<>();
+        for (PortfolioPosition p : portfolioUseCase.listActivePositions()) {
+            if (p.getAverageEntryPrice() != null) {
+                costBasisByTicker.put(p.getTicker().value(),
+                        p.getAverageEntryPrice().amount().doubleValue());
+            }
+        }
+
         for (String ticker : collectTickers()) {
             Optional<IntradayQuote> quote = freshQuote(ticker);
             if (quote.isEmpty() || quote.get().price() == null) {
@@ -94,7 +106,7 @@ public class AlertEvaluationService {
                 continue;
             }
             for (AlertCandidate c : evaluateTicker(ticker, price, decision.get().getAction(),
-                    decision.get().getLevels())) {
+                    decision.get().getLevels(), costBasisByTicker.get(ticker))) {
                 if (dispatch(ticker, c, today)) {
                     fired++;
                 }
@@ -111,28 +123,49 @@ public class AlertEvaluationService {
     /**
      * Pure rule evaluation for one ticker — no side effects, so it is unit-testable.
      * Returns the alert conditions currently met (before de-duplication).
+     *
+     * @param costBasis the holder's average entry price when this ticker is an <b>open position</b>,
+     *                  or {@code null} for a watchlist-only candidate. When present, stop-loss and
+     *                  take-profit alerts are gated so they only fire when the level is meaningful
+     *                  relative to the user's cost: a stop above cost is not a loss, and a target
+     *                  below cost is not a profit — neither should notify.
      */
     static List<AlertCandidate> evaluateTicker(String ticker, double price, String action,
-                                               TradingLevels levels) {
+                                               TradingLevels levels, Double costBasis) {
         List<AlertCandidate> out = new ArrayList<>();
         if (levels == null) {
             return out;
         }
 
-        if (levels.stopLoss() != null && price <= levels.stopLoss()) {
-            out.add(new AlertCandidate(AlertType.STOP_LOSS, levels.stopLoss(),
+        Double stop = levels.stopLoss();
+        Double target = levels.takeProfit();
+
+        // Sanity guard: for a long setup a valid stop must sit below the target. When the levels are
+        // inverted or equal (stop >= target) they are unusable — firing on them produces contradictory
+        // "stop-loss breached" + "take-profit reached" alerts for the same price, so skip both.
+        boolean invertedLevels = stop != null && target != null && stop >= target;
+
+        // STOP_LOSS: price broke at/below the protective stop. For a held position the stop must
+        // represent a real loss (at/below cost basis); a stop above cost is a profit-locking exit,
+        // not a loss, and must not alert as one.
+        if (stop != null && price <= stop && !invertedLevels
+                && (costBasis == null || stop <= costBasis)) {
+            out.add(new AlertCandidate(AlertType.STOP_LOSS, stop,
                     "%s stop-loss seviyesini kırdı: fiyat %.2f ≤ stop %.2f"
-                            .formatted(ticker, price, levels.stopLoss())));
+                            .formatted(ticker, price, stop)));
         }
 
-        if (levels.takeProfit() != null && price >= levels.takeProfit()) {
-            out.add(new AlertCandidate(AlertType.TAKE_PROFIT, levels.takeProfit(),
+        // TAKE_PROFIT: price reached the target. For a held position the target must be a real gain
+        // (at/above cost basis); a target below cost is a loss and must not alert as a profit.
+        if (target != null && price >= target && !invertedLevels
+                && (costBasis == null || target >= costBasis)) {
+            out.add(new AlertCandidate(AlertType.TAKE_PROFIT, target,
                     "%s hedef fiyata ulaştı: fiyat %.2f ≥ hedef %.2f"
-                            .formatted(ticker, price, levels.takeProfit())));
+                            .formatted(ticker, price, target)));
         }
 
         Double entry = entryLevel(levels);
-        boolean aboveStop = levels.stopLoss() == null || price > levels.stopLoss();
+        boolean aboveStop = stop == null || price > stop;
         if (entry != null && action != null && ENTRY_ACTIONS.contains(action)
                 && price <= entry && aboveStop) {
             out.add(new AlertCandidate(AlertType.ENTRY_ZONE, entry,

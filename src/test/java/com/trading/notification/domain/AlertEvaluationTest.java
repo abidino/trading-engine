@@ -63,28 +63,28 @@ class AlertEvaluationTest {
     @Test
     void stopLossBreachProducesStopAlert() {
         var out = AlertEvaluationService.evaluateTicker("AAA", 90.0, "BUY",
-                levels(100.0, 100.0, 95.0, 130.0));
+                levels(100.0, 100.0, 95.0, 130.0), null);
         assertThat(out).extracting(AlertCandidate::type).contains(AlertType.STOP_LOSS);
     }
 
     @Test
     void reachingTakeProfitProducesTargetAlert() {
         var out = AlertEvaluationService.evaluateTicker("AAA", 135.0, "BUY",
-                levels(100.0, 100.0, 95.0, 130.0));
+                levels(100.0, 100.0, 95.0, 130.0), null);
         assertThat(out).extracting(AlertCandidate::type).contains(AlertType.TAKE_PROFIT);
     }
 
     @Test
     void priceInBuyZoneWithActionableDecisionProducesEntryAlert() {
         var out = AlertEvaluationService.evaluateTicker("AAA", 99.0, "BUY",
-                levels(100.0, 100.0, 90.0, 130.0));
+                levels(100.0, 100.0, 90.0, 130.0), null);
         assertThat(out).extracting(AlertCandidate::type).contains(AlertType.ENTRY_ZONE);
     }
 
     @Test
     void noEntryAlertWhenActionIsNotActionable() {
         var out = AlertEvaluationService.evaluateTicker("AAA", 99.0, "HOLD",
-                levels(100.0, 100.0, 90.0, 130.0));
+                levels(100.0, 100.0, 90.0, 130.0), null);
         assertThat(out).extracting(AlertCandidate::type).doesNotContain(AlertType.ENTRY_ZONE);
     }
 
@@ -92,7 +92,7 @@ class AlertEvaluationTest {
     void noEntryAlertWhenPriceBrokeBelowStop() {
         // Price 89 is below stop 90 → treated as stop-loss, not an entry opportunity.
         var out = AlertEvaluationService.evaluateTicker("AAA", 89.0, "BUY",
-                levels(100.0, 100.0, 90.0, 130.0));
+                levels(100.0, 100.0, 90.0, 130.0), null);
         assertThat(out).extracting(AlertCandidate::type)
                 .contains(AlertType.STOP_LOSS)
                 .doesNotContain(AlertType.ENTRY_ZONE);
@@ -100,8 +100,50 @@ class AlertEvaluationTest {
 
     @Test
     void noAlertsWhenNoLevels() {
-        var out = AlertEvaluationService.evaluateTicker("AAA", 99.0, "BUY", TradingLevels.empty());
+        var out = AlertEvaluationService.evaluateTicker("AAA", 99.0, "BUY", TradingLevels.empty(), null);
         assertThat(out).isEmpty();
+    }
+
+    @Test
+    void invertedLevelsProduceNoContradictoryAlerts() {
+        // Regression: stop (340) above target (309.58) is degenerate; price 318.34 must NOT
+        // fire both STOP_LOSS and TAKE_PROFIT at once.
+        var out = AlertEvaluationService.evaluateTicker("GOOG", 318.34, "HOLD",
+                levels(null, null, 340.0, 309.58), null);
+        assertThat(out).extracting(AlertCandidate::type)
+                .doesNotContain(AlertType.STOP_LOSS, AlertType.TAKE_PROFIT);
+    }
+
+    @Test
+    void heldPositionSuppressesStopAboveCostBasis() {
+        // Cost basis 328; analysis stop 340 is above cost → hitting it is not a loss → no alert.
+        var out = AlertEvaluationService.evaluateTicker("GOOG", 335.0, "HOLD",
+                levels(null, null, 340.0, 380.0), 328.0);
+        assertThat(out).extracting(AlertCandidate::type).doesNotContain(AlertType.STOP_LOSS);
+    }
+
+    @Test
+    void heldPositionSuppressesTargetBelowCostBasis() {
+        // Cost basis 328; analysis target 309.58 is below cost → not a profit → no alert.
+        var out = AlertEvaluationService.evaluateTicker("GOOG", 318.34, "HOLD",
+                levels(null, null, 290.0, 309.58), 328.0);
+        assertThat(out).extracting(AlertCandidate::type).doesNotContain(AlertType.TAKE_PROFIT);
+    }
+
+    @Test
+    void heldPositionFiresStopBelowCostBasis() {
+        // Cost basis 328; a real protective stop at 320 breached at 318 → genuine loss → alert.
+        var out = AlertEvaluationService.evaluateTicker("GOOG", 318.0, "HOLD",
+                levels(null, null, 320.0, 380.0), 328.0);
+        assertThat(out).extracting(AlertCandidate::type).contains(AlertType.STOP_LOSS);
+    }
+
+    @Test
+    void heldPositionFiresTargetAboveCostBasis() {
+        // Cost basis 328; target 350 above cost reached at 352 → genuine profit → alert.
+        var out = AlertEvaluationService.evaluateTicker("GOOG", 352.0, "HOLD",
+                levels(null, null, 300.0, 350.0), 328.0);
+        assertThat(out).extracting(AlertCandidate::type).contains(AlertType.TAKE_PROFIT);
     }
 
     // ---- Dispatch + de-duplication ------------------------------------------
