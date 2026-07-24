@@ -37,6 +37,7 @@ public class AnalysisOrchestrationDomainService {
     private final SocialSignalPort socialSignalPort;
     private final TechnicalTrendPort technicalTrendPort;
     private final SupportResistancePort supportResistancePort;
+    private final LivePricePort livePricePort;
     private final PromptAssemblyService promptAssembly;
     private final ObjectMapper objectMapper;
 
@@ -51,6 +52,7 @@ public class AnalysisOrchestrationDomainService {
             SocialSignalPort socialSignalPort,
             TechnicalTrendPort technicalTrendPort,
             SupportResistancePort supportResistancePort,
+            LivePricePort livePricePort,
             PromptAssemblyService promptAssembly,
             ObjectMapper objectMapper) {
         this.llmPort = llmPort;
@@ -60,6 +62,7 @@ public class AnalysisOrchestrationDomainService {
         this.socialSignalPort = socialSignalPort;
         this.technicalTrendPort = technicalTrendPort;
         this.supportResistancePort = supportResistancePort;
+        this.livePricePort = livePricePort;
         this.promptAssembly = promptAssembly;
         this.objectMapper = objectMapper;
     }
@@ -78,6 +81,7 @@ public class AnalysisOrchestrationDomainService {
         List<String> signals = socialSignalPort.fetchSignalsForTicker(ticker, SOCIAL_LIMIT);
         String trendSummary = technicalTrendPort.fetchTrendSummary(ticker);
         SupportResistancePort.Snapshot supportResistance = supportResistancePort.fetchForTicker(ticker);
+        LivePricePort.Snapshot liveQuote = livePricePort.fetchForTicker(ticker);
 
         // 2. Summarise raw content via LLM (cheap, short calls)
         String newsSummary = headlines.isEmpty()
@@ -91,7 +95,7 @@ public class AnalysisOrchestrationDomainService {
         AnalysisContext context = new AnalysisContext(
                 request.ticker(), request.requestType(),
                 technical, fundamental, newsSummary, socialSummary, trendSummary,
-                supportResistance, buildPositionContext(request));
+                supportResistance, liveQuote, buildPositionContext(request));
 
         LlmRequest llmRequest = promptAssembly.assembleAnalysisRequest(context);
         LlmResponse llmResponse = llmPort.complete(llmRequest);
@@ -109,6 +113,7 @@ public class AnalysisOrchestrationDomainService {
      */
     private void ensureDataReady(String ticker) {
         technicalDataPort.ensureFresh(ticker);
+        livePricePort.ensureFresh(ticker);
         newsPort.ensureFresh(ticker);
         socialSignalPort.ensureFresh(ticker);
     }

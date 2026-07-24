@@ -1,5 +1,6 @@
 package com.trading.orchestration.domain.model;
 
+import com.trading.orchestration.domain.port.out.LivePricePort;
 import com.trading.orchestration.domain.port.out.SupportResistancePort;
 import com.trading.shared.kernel.AnalysisRequestType;
 import com.trading.shared.kernel.Ticker;
@@ -17,5 +18,6 @@ public record AnalysisContext(
         String socialSummary,
         String trendSummary,
         SupportResistancePort.Snapshot supportResistance,
+        LivePricePort.Snapshot liveQuote,
         String positionContext
 ) {}

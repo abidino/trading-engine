@@ -1,6 +1,9 @@
 export interface TradingLevels {
   entryLow?: number | null
   entryHigh?: number | null
+  aggressiveEntry?: number | null
+  idealEntry?: number | null
+  safeEntry?: number | null
   stopLoss?: number | null
   takeProfit?: number | null
   nearestSupport?: number | null

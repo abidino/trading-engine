@@ -42,7 +42,8 @@ public class PromptAssemblyService {
                     Based on the technical data, support/resistance levels, fundamental data, news summary, \
                     social sentiment and the current position provided, recommend either SELL or HOLD. \
                     You MUST provide concrete numeric price levels: an updated stopLoss (protective exit) and \
-                    takeProfit (primary target). Use the support/resistance levels and current price as anchors. \
+                    takeProfit (primary target). Use the support/resistance levels and the latest live price \
+                    (see the "Live Price" section — it reflects pre/post-market when the regular session is closed) as anchors. \
                     You MUST also provide a "counterThesis": the single strongest argument AGAINST your own \
                     recommendation (the opposing case), and "keyRisks": a list of concrete, specific risks that \
                     could invalidate it. Never present a one-sided, overconfident view. \
@@ -55,12 +56,13 @@ public class PromptAssemblyService {
                     or REMOVE (no longer suitable). \
                     You MUST provide concrete numeric price levels: a buy zone (entryLow/entryHigh), a protective \
                     stopLoss, a takeProfit target, and THREE staggered buy entry points anchored to \
-                    support/resistance and the current price:
-                    - aggressiveEntry: closest to the current price (earliest fill, highest risk),
+                    support/resistance and the latest live price (see the "Live Price" section — it reflects \
+                    pre/post-market when the regular session is closed):
+                    - aggressiveEntry: closest to the latest live price (earliest fill, highest risk),
                     - idealEntry: the balanced best risk/reward level (typically near nearest support),
                     - safeEntry: a deeper-pullback level near strong support (lowest price, lowest risk).
                     Ensure safeEntry <= idealEntry <= aggressiveEntry. Anchor all levels to the support/resistance \
-                    levels and current price. \
+                    levels and the latest live price. \
                     You MUST also provide a "counterThesis": the single strongest argument AGAINST your own \
                     recommendation (the bear case if you say BUY, the bull case if you say WAIT/REMOVE), and \
                     "keyRisks": a list of concrete, specific risks that could invalidate it. Never present a \
@@ -72,8 +74,9 @@ public class PromptAssemblyService {
                     You are an expert stock screener analyst evaluating a newly discovered candidate. \
                     Based on the data, recommend ADD_TO_WATCHLIST or IGNORE. When you recommend ADD_TO_WATCHLIST, \
                     provide an indicative buy zone (entryLow/entryHigh), stopLoss, takeProfit and three staggered \
-                    buy entry points (aggressiveEntry closest to price, idealEntry balanced, safeEntry near strong \
-                    support, with safeEntry <= idealEntry <= aggressiveEntry) anchored to the support/resistance \
+                    buy entry points (aggressiveEntry closest to the latest live price, idealEntry balanced, safeEntry \
+                    near strong support, with safeEntry <= idealEntry <= aggressiveEntry) anchored to the latest live \
+                    price (see the "Live Price" section, incl. pre/post-market) and the support/resistance \
                     levels; otherwise leave levels null. \
                     You MUST also provide a "counterThesis": the single strongest argument AGAINST your own \
                     recommendation, and "keyRisks": a list of concrete, specific risks that could invalidate it. \
@@ -114,6 +117,9 @@ public class PromptAssemblyService {
                 ## Current Position / Entry Context
                 %s
                 
+                ## Live Price (most recent — anchor all price levels to THIS)
+                %s
+                
                 ## Technical Indicators
                 %s
                 
@@ -138,6 +144,7 @@ public class PromptAssemblyService {
                 f.peRatio(), f.eps(), f.marketCapUsd(),
                 f.revenueGrowthRate(), f.debtToEquity(),
                 ctx.positionContext() != null ? ctx.positionContext() : "No position context.",
+                formatLivePrice(ctx),
                 t.indicators(),
                 t.priceHistorySummary(),
                 formatSupportResistance(ctx),
@@ -145,6 +152,35 @@ public class PromptAssemblyService {
                 ctx.socialSummary(),
                 ctx.trendSummary()
         );
+    }
+
+    /**
+     * Renders the freshest live quote (pre-market / regular / post-market) so the LLM anchors
+     * entry/stop/target levels to the true latest price rather than the prior daily close. Falls
+     * back to a clear note when no live quote is available.
+     */
+    private String formatLivePrice(AnalysisContext ctx) {
+        var q = ctx.liveQuote();
+        if (q == null) {
+            return "No live intraday quote available — anchor levels to the latest daily close below.";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("- Latest price: ").append(String.format("%.2f", q.price()));
+        if (q.session() != null) {
+            sb.append(" (").append(q.session()).append(" session)");
+        }
+        sb.append("\n");
+        if (q.changePercent() != null) {
+            sb.append("- Change vs prev close: ").append(String.format("%+.2f%%", q.changePercent())).append("\n");
+        }
+        if (q.previousClose() != null) {
+            sb.append("- Previous close: ").append(String.format("%.2f", q.previousClose())).append("\n");
+        }
+        if (q.quoteTime() != null) {
+            sb.append("- As of: ").append(q.quoteTime()).append("\n");
+        }
+        sb.append("Use this latest price as the primary anchor for entry, stop-loss and target levels.");
+        return sb.toString();
     }
 
     /** Renders the support/resistance snapshot for the prompt, or a fallback when unavailable. */

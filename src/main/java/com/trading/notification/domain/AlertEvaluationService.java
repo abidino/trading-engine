@@ -57,13 +57,31 @@ public class AlertEvaluationService {
     @Value("${alerts.portfolio-drop-pct:5.0}")
     private double portfolioDropPct;
 
+    /**
+     * Returns the freshest quote for the ticker: pulls a live refresh from the provider
+     * (which captures pre/post-market prints when the regular session is closed) and falls
+     * back to the last persisted quote when the refresh fails. This keeps stop-loss / entry
+     * threshold checks anchored to the true latest price regardless of trading session.
+     */
+    private Optional<IntradayQuote> freshQuote(String ticker) {
+        try {
+            IntradayQuote refreshed = intradayQuotes.refreshQuote(ticker);
+            if (refreshed != null && refreshed.price() != null) {
+                return Optional.of(refreshed);
+            }
+        } catch (Exception e) {
+            log.debug("Quote refresh failed for {} — using last persisted quote: {}", ticker, e.getMessage());
+        }
+        return intradayQuotes.latestQuote(ticker);
+    }
+
     /** Runs the full evaluation over portfolio + watchlist; returns the number of alerts fired. */
     public int evaluateAll() {
         LocalDate today = LocalDate.now();
         int fired = 0;
 
         for (String ticker : collectTickers()) {
-            Optional<IntradayQuote> quote = intradayQuotes.latestQuote(ticker);
+            Optional<IntradayQuote> quote = freshQuote(ticker);
             if (quote.isEmpty() || quote.get().price() == null) {
                 continue;
             }

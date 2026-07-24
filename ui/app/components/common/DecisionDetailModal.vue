@@ -34,7 +34,8 @@ const fmtLevel = (v?: number | null) =>
   v == null ? '—' : `$${Number(v).toFixed(2)}`
 
 const hasLevels = (l?: TradingLevels | null) =>
-  !!l && [l.entryLow, l.entryHigh, l.stopLoss, l.takeProfit, l.nearestSupport, l.nearestResistance]
+  !!l && [l.entryLow, l.entryHigh, l.aggressiveEntry, l.idealEntry, l.safeEntry,
+          l.stopLoss, l.takeProfit, l.nearestSupport, l.nearestResistance]
     .some(v => v != null)
 
 const summaries = computed(() => {
@@ -113,10 +114,22 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
               <h3 class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">Trading Levels</h3>
               <div class="grid grid-cols-2 gap-3 rounded-lg bg-gray-800/50 p-3 text-sm sm:grid-cols-3">
                 <div v-if="decision.levels?.entryLow != null || decision.levels?.entryHigh != null">
-                  <p class="text-xs text-gray-500">Entry</p>
+                  <p class="text-xs text-gray-500">Buy Zone</p>
                   <p class="font-semibold text-green-400">
                     {{ fmtLevel(decision.levels?.entryLow) }} – {{ fmtLevel(decision.levels?.entryHigh) }}
                   </p>
+                </div>
+                <div v-if="decision.levels?.aggressiveEntry != null">
+                  <p class="text-xs text-gray-500">Aggressive Entry</p>
+                  <p class="font-semibold text-amber-400">{{ fmtLevel(decision.levels?.aggressiveEntry) }}</p>
+                </div>
+                <div v-if="decision.levels?.idealEntry != null">
+                  <p class="text-xs text-gray-500">Ideal Entry</p>
+                  <p class="font-semibold text-emerald-400">{{ fmtLevel(decision.levels?.idealEntry) }}</p>
+                </div>
+                <div v-if="decision.levels?.safeEntry != null">
+                  <p class="text-xs text-gray-500">Safe Entry</p>
+                  <p class="font-semibold text-sky-400">{{ fmtLevel(decision.levels?.safeEntry) }}</p>
                 </div>
                 <div v-if="decision.levels?.stopLoss != null">
                   <p class="text-xs text-gray-500">Stop Loss</p>

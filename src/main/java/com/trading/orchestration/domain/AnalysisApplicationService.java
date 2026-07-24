@@ -47,13 +47,14 @@ public class AnalysisApplicationService implements RequestAnalysisUseCase {
             SocialSignalPort socialSignalPort,
             TechnicalTrendPort technicalTrendPort,
             SupportResistancePort supportResistancePort,
+            LivePricePort livePricePort,
             ObjectMapper objectMapper,
             ApplicationEventPublisher eventPublisher,
             AnalysisTriggerCoordinator triggerCoordinator) {
         this.domainService = new AnalysisOrchestrationDomainService(
                 llmPort, technicalDataPort, fundamentalDataPort,
                 newsPort, socialSignalPort, technicalTrendPort, supportResistancePort,
-                new PromptAssemblyService(), objectMapper);
+                livePricePort, new PromptAssemblyService(), objectMapper);
         this.eventPublisher = eventPublisher;
         this.triggerCoordinator = triggerCoordinator;
     }
